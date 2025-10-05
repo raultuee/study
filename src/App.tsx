@@ -6,6 +6,7 @@ import { Toaster } from 'sonner';
 import { Error } from './pages/error';
 import { Home } from './pages/home';
 import { LoadingPage } from './utils/loading-page';
+import { Login } from './pages/login';
 export function App() {
 
   return (
@@ -20,6 +21,8 @@ export function App() {
             <Route path='/loading' element={<LoadingPage/>}/>
 
             <Route path='/' element={<Home/>}/>
+
+            <Route path='/login' element={<Login/>}/>
 
             <Route path='*' element={<Error />} />
 

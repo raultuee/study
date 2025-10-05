@@ -89,7 +89,7 @@ export function Home() {
             </div>
 
             <div className="hidden md:flex space-x-4">
-              <Button variant="ghost" className="text-blue-600">Entrar</Button>
+              <a href="/login"><Button variant="ghost" className="text-blue-600">Entrar</Button></a>
               <Button className="bg-blue-600 hover:bg-blue-700">Começar Grátis</Button>
             </div>
 
@@ -105,7 +105,7 @@ export function Home() {
               <a href="#recursos" className="block text-gray-700 hover:text-blue-600">Recursos</a>
               <a href="#beneficios" className="block text-gray-700 hover:text-blue-600">Benefícios</a>
               <a href="#depoimentos" className="block text-gray-700 hover:text-blue-600">Depoimentos</a>
-              <Button variant="ghost" className="w-full text-blue-600">Entrar</Button>
+              <a href="/login"><Button variant="ghost" className="w-full text-blue-600">Entrar</Button></a>
               <Button className="w-full bg-blue-600 hover:bg-blue-700">Começar Grátis</Button>
             </div>
           </div>
