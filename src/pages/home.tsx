@@ -90,7 +90,7 @@ export function Home() {
 
             <div className="hidden md:flex space-x-4">
               <a href="/login"><Button variant="ghost" className="text-blue-600">Entrar</Button></a>
-              <Button className="bg-blue-600 hover:bg-blue-700">Começar Grátis</Button>
+              <Button className="bg-blue-600 text-white hover:bg-blue-700">Começar Grátis</Button>
             </div>
 
             <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -106,7 +106,7 @@ export function Home() {
               <a href="#beneficios" className="block text-gray-700 hover:text-blue-600">Benefícios</a>
               <a href="#depoimentos" className="block text-gray-700 hover:text-blue-600">Depoimentos</a>
               <a href="/login"><Button variant="ghost" className="w-full text-blue-600">Entrar</Button></a>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">Começar Grátis</Button>
+              <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">Começar Grátis</Button>
             </div>
           </div>
         )}
@@ -138,7 +138,7 @@ export function Home() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all">
+            <Button className="bg-blue-600 text-white hover:bg-blue-700 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all">
               Começar Gratuitamente
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
