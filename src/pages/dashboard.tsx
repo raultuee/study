@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
-import { Lock, Plus, ArrowLeft, User, Settings, LogOut } from 'lucide-react';
+import { Lock, Plus, ArrowLeft, User, Settings, LogOut, Calendar, Clock, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Progress } from "@/components/ui/progress";
 import { CardDescription } from "@/components/ui/card";
 import { Trophy, Check, PlusIcon, Trash2 } from "lucide-react";
@@ -47,6 +47,14 @@ type UserProfileData = {
   plans: string[];
   forums: { name: string; url: string }[];
   portfolioUrl: string;
+};
+
+type Appointment = {
+  id: number;
+  title: string;
+  date: string;
+  time: string;
+  description?: string;
 };
 
 // Dados mockados
@@ -176,6 +184,345 @@ function ConquistasContent() {
   );
 }
 
+function AgendaContent() {
+  const [appointments, setAppointments] = useState<Appointment[]>([
+    { id: 1, title: "Economia Circular", date: "2025-10-15", time: "15:00", description: "Aula sobre economia circular e sustentabilidade" },
+    { id: 2, title: "Reunião de Projeto", date: "2025-10-12", time: "10:00", description: "Discussão sobre o projeto final" },
+    { id: 3, title: "Apresentação TCC", date: "2025-10-20", time: "14:30", description: "Defesa do trabalho de conclusão de curso" },
+    { id: 4, title: "Prova de Matemática", date: "2025-10-18", time: "08:00", description: "Avaliação final do semestre" },
+  ]);
+  
+  const [showForm, setShowForm] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 9, 1)); // Outubro 2025
+  const [formData, setFormData] = useState({
+    title: "",
+    date: "",
+    time: "",
+    description: "",
+  });
+
+  const handleAddAppointment = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.title.trim() === "" || formData.date === "" || formData.time === "") return;
+    
+    const newAppointment: Appointment = {
+      id: Date.now(),
+      ...formData,
+    };
+    
+    setAppointments([...appointments, newAppointment]);
+    setFormData({ title: "", date: "", time: "", description: "" });
+    setShowForm(false);
+  };
+
+  const handleDeleteAppointment = (id: number) => {
+    setAppointments(appointments.filter((apt) => apt.id !== id));
+  };
+
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDayOfWeek = firstDay.getDay();
+    
+    return { daysInMonth, startingDayOfWeek, year, month };
+  };
+
+  const getAppointmentsForDate = (dateStr: string) => {
+    return appointments.filter(apt => apt.date === dateStr);
+  };
+
+  const getSortedAppointments = () => {
+    return [...appointments].sort((a, b) => {
+      const dateA = new Date(`${a.date}T${a.time}`);
+      const dateB = new Date(`${b.date}T${b.time}`);
+      return dateA.getTime() - dateB.getTime();
+    });
+  };
+
+  const isToday = (dateStr: string) => {
+    const today = new Date();
+    const checkDate = new Date(dateStr + "T00:00:00");
+    return checkDate.toDateString() === today.toDateString();
+  };
+
+  const isUpcoming = (dateStr: string, timeStr: string) => {
+    const appointmentDate = new Date(`${dateStr}T${timeStr}`);
+    const now = new Date();
+    return appointmentDate >= now;
+  };
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr + "T00:00:00");
+    return date.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+  };
+
+  const previousMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
+  };
+
+  const nextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+  };
+
+  const { daysInMonth, startingDayOfWeek, year, month } = getDaysInMonth(currentMonth);
+  const monthName = currentMonth.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+  const handleDayClick = (day: number) => {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    setSelectedDate(dateStr);
+    setFormData({ ...formData, date: dateStr });
+  };
+
+  const filteredAppointments = selectedDate 
+    ? appointments.filter(apt => apt.date === selectedDate)
+    : getSortedAppointments();
+
+  return (
+    <div className="w-full max-w-7xl space-y-6">
+      <header className="flex items-center justify-between">
+        <div>
+          <h1 className="text-4xl font-bold mb-2">Agenda Pessoal</h1>
+          <p className="text-blue-200/80">Organize seus compromissos e eventos</p>
+        </div>
+        <Button
+          onClick={() => setShowForm(!showForm)}
+          className="bg-blue-700 hover:bg-blue-800 text-white"
+        >
+          <Plus className="h-5 w-5 mr-2" />
+          Novo Compromisso
+        </Button>
+      </header>
+
+      {showForm && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+        >
+          <Card className="border-blue-700/50 bg-blue-900/80 p-6">
+            <form onSubmit={handleAddAppointment} className="space-y-4">
+              <div>
+                <label className="block text-white mb-2 text-sm font-medium">Título</label>
+                <Input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  placeholder="Ex: Reunião, Aula, Compromisso..."
+                  className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-white mb-2 text-sm font-medium">Data</label>
+                  <Input
+                    type="date"
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    className="bg-blue-800 border-blue-700/50 text-white"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-white mb-2 text-sm font-medium">Horário</label>
+                  <Input
+                    type="time"
+                    value={formData.time}
+                    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                    className="bg-blue-800 border-blue-700/50 text-white"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-white mb-2 text-sm font-medium">Descrição (opcional)</label>
+                <Input
+                  type="text"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  placeholder="Adicione detalhes sobre o compromisso..."
+                  className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70"
+                />
+              </div>
+              <div className="flex gap-2 justify-end">
+                <Button
+                  type="button"
+                  onClick={() => setShowForm(false)}
+                  variant="ghost"
+                  className="text-white hover:bg-blue-800"
+                >
+                  Cancelar
+                </Button>
+                <Button type="submit" className="bg-green-600 hover:bg-green-700 text-white">
+                  Salvar
+                </Button>
+              </div>
+            </form>
+          </Card>
+        </motion.div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Calendário */}
+        <div className="lg:col-span-1">
+          <Card className="border-blue-700/50 bg-blue-900/60 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={previousMonth}
+                className="text-white hover:bg-blue-800"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
+              <h2 className="text-white font-semibold text-lg capitalize">{monthName}</h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={nextMonth}
+                className="text-white hover:bg-blue-800"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-7 gap-1 mb-2">
+              {weekDays.map((day) => (
+                <div key={day} className="text-center text-blue-200/70 text-xs font-medium py-2">
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-7 gap-1">
+              {Array.from({ length: startingDayOfWeek }).map((_, index) => (
+                <div key={`empty-${index}`} className="aspect-square" />
+              ))}
+              
+              {Array.from({ length: daysInMonth }).map((_, index) => {
+                const day = index + 1;
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const hasAppointments = getAppointmentsForDate(dateStr).length > 0;
+                const isSelected = selectedDate === dateStr;
+                const todayDate = isToday(dateStr);
+
+                return (
+                  <button
+                    key={day}
+                    onClick={() => handleDayClick(day)}
+                    className={`
+                      aspect-square flex items-center justify-center rounded-lg text-sm font-medium transition-all relative
+                      ${isSelected ? 'bg-blue-600 text-white' : todayDate ? 'bg-blue-700/50 text-white' : 'text-blue-100 hover:bg-blue-800/50'}
+                    `}
+                  >
+                    {day}
+                    {hasAppointments && (
+                      <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {selectedDate && (
+              <div className="mt-4">
+                <Button
+                  variant="ghost"
+                  onClick={() => setSelectedDate(null)}
+                  className="w-full text-white hover:bg-blue-800 text-sm"
+                >
+                  Mostrar todos os compromissos
+                </Button>
+              </div>
+            )}
+          </Card>
+        </div>
+
+        {/* Lista de Compromissos */}
+        <div className="lg:col-span-2">
+          <Card className="border-blue-700/50 bg-blue-900/60 p-6">
+            <h2 className="text-white font-semibold text-xl mb-4">
+              {selectedDate ? `Compromissos de ${formatDate(selectedDate)}` : 'Próximos Compromissos'}
+            </h2>
+            
+            <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+              {filteredAppointments.length === 0 ? (
+                <div className="text-center py-12">
+                  <Calendar className="h-16 w-16 mx-auto mb-4 text-blue-400/50" />
+                  <p className="text-blue-300/80 text-lg">
+                    {selectedDate ? 'Nenhum compromisso nesta data.' : 'Nenhum compromisso agendado.'}
+                  </p>
+                  <p className="text-blue-400/60 text-sm mt-2">
+                    Adicione um novo compromisso para começar.
+                  </p>
+                </div>
+              ) : (
+                <AnimatePresence>
+                  {filteredAppointments.map((appointment) => {
+                    const upcoming = isUpcoming(appointment.date, appointment.time);
+                    return (
+                      <motion.div
+                        key={appointment.id}
+                        layout
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <Card className={`p-4 transition-all duration-300 ${upcoming ? 'bg-blue-800/60 border-blue-600' : 'bg-blue-900/40 opacity-60'}`}>
+                          <div className="flex items-start justify-between">
+                            <div className="flex-grow space-y-2">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <h3 className="text-white font-semibold text-base">{appointment.title}</h3>
+                                {upcoming && (
+                                  <Badge className="bg-green-600 hover:bg-green-800 text-white text-xs">Próximo</Badge>
+                                )}
+                              </div>
+                              
+                              <div className="flex items-center gap-4 text-blue-200/80 text-sm">
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="h-4 w-4" />
+                                  <span className="capitalize">{formatDate(appointment.date)}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <Clock className="h-4 w-4" />
+                                  <span>{appointment.time}</span>
+                                </div>
+                              </div>
+                              
+                              {appointment.description && (
+                                <p className="text-blue-200/70 text-sm mt-2">{appointment.description}</p>
+                              )}
+                            </div>
+                            
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleDeleteAppointment(appointment.id)}
+                              className="hover:bg-red-500/20 text-red-400 flex-shrink-0 ml-2"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </Card>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              )}
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Componente de Perfil
 function PerfilContent() {
   return (
@@ -266,6 +613,11 @@ function ForumContent() {
 // Componente Principal do Dashboard
 export function Dashboard() {
   const [currentView, setCurrentView] = useState<string>('home');
+  const [appointments] = useState<Appointment[]>([
+    { id: 1, title: "Economia Circular", date: "2025-10-15", time: "15:00", description: "Aula sobre economia circular e sustentabilidade" },
+    { id: 2, title: "Reunião de Projeto", date: "2025-10-12", time: "10:00", description: "Discussão sobre o projeto final" },
+    { id: 3, title: "Apresentação TCC", date: "2025-10-20", time: "14:30", description: "Defesa do trabalho de conclusão de curso" },
+  ]);
 
   const getGreeting = () => {
     const now = new Date();
@@ -274,6 +626,23 @@ export function Dashboard() {
     else if (hour >= 12 && hour < 18) return "Boa tarde";
     else return "Boa noite";
   };
+
+  const getNextAppointment = () => {
+    const now = new Date();
+    const upcoming = appointments
+      .filter(apt => {
+        const aptDate = new Date(`${apt.date}T${apt.time}`);
+        return aptDate >= now;
+      })
+      .sort((a, b) => {
+        const dateA = new Date(`${a.date}T${a.time}`);
+        const dateB = new Date(`${b.date}T${b.time}`);
+        return dateA.getTime() - dateB.getTime();
+      });
+    return upcoming[0];
+  };
+
+  const nextAppointment = getNextAppointment();
 
   const renderContent = () => {
     switch (currentView) {
@@ -285,6 +654,8 @@ export function Dashboard() {
         return <PerfilContent />;
       case 'forum':
         return <ForumContent />;
+      case 'agenda':
+        return <AgendaContent />;
       default:
         return (
           <div className="max-w-7xl mx-auto space-y-6">
@@ -327,13 +698,13 @@ export function Dashboard() {
                 </CardHeader>
               </Card>
 
-              <Card className="col-span-2 md:col-span-3 lg:col-span-2 h-32 md:h-36 flex flex-col justify-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+              <Card onClick={() => setCurrentView('agenda')} className="col-span-2 md:col-span-3 lg:col-span-2 h-32 md:h-36 flex flex-col justify-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
                 <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
                   <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
-                    <Lock/>
+                    Agenda pessoal
                   </CardTitle>
                   <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs md:max-w-md leading-relaxed">
-                    Quarta-feira, 15:00 - Economia Circular
+                    {nextAppointment ? `${nextAppointment.title} - ${nextAppointment.time}` : 'Nenhum compromisso próximo'}
                   </p>
                 </CardHeader>
               </Card>
