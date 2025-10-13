@@ -58,12 +58,7 @@ type Appointment = {
 };
 
 // Dados mockados
-const achievementsData: Achievement[] = [
-  { id: 1, title: "Primeiros Passos", description: "Crie sua primeira tarefa.", unlocked: true },
-  { id: 2, title: "Organizador", description: "Crie um compromisso na sua agenda.", unlocked: true },
-  { id: 3, title: "Convivência amigável", description: "Lidere um fórum.", unlocked: false },
-  { id: 4, title: "Bonito e elegante", description: "Conclua todas as etapas do seu perfil.", unlocked: false },
-];
+const achievementsData: Achievement[] = [];
 
 const userData: UserProfileData = {
   name: "Usuário Teste",
@@ -76,12 +71,7 @@ const userData: UserProfileData = {
 
 // Componente de Tarefas
 function TarefasContent() {
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: 1, text: "Estudar React com TypeScript", completed: true },
-    { id: 2, text: "Finalizar componente de perfil", completed: true },
-    { id: 3, text: "Começar a lista de tarefas", completed: false },
-    { id: 4, text: "Entregar o projeto", completed: false },
-  ]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState("");
 
   const handleAddTodo = (e: React.FormEvent) => {
@@ -185,12 +175,7 @@ function ConquistasContent() {
 }
 
 function AgendaContent() {
-  const [appointments, setAppointments] = useState<Appointment[]>([
-    { id: 1, title: "Economia Circular", date: "2025-10-15", time: "15:00", description: "Aula sobre economia circular e sustentabilidade" },
-    { id: 2, title: "Reunião de Projeto", date: "2025-10-12", time: "10:00", description: "Discussão sobre o projeto final" },
-    { id: 3, title: "Apresentação TCC", date: "2025-10-20", time: "14:30", description: "Defesa do trabalho de conclusão de curso" },
-    { id: 4, title: "Prova de Matemática", date: "2025-10-18", time: "08:00", description: "Avaliação final do semestre" },
-  ]);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   
   const [showForm, setShowForm] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -618,6 +603,15 @@ export function Dashboard() {
     { id: 2, title: "Reunião de Projeto", date: "2025-10-12", time: "10:00", description: "Discussão sobre o projeto final" },
     { id: 3, title: "Apresentação TCC", date: "2025-10-20", time: "14:30", description: "Defesa do trabalho de conclusão de curso" },
   ]);
+  
+  const equipe = "💻 Deseja entrar para a Equipe de Desenvolvimento Study? Acesse: https://discord.gg/3M4xNrnsQv"
+  useState(() => {
+    // Só executa no client
+    if (typeof window !== "undefined") {
+      console.log(equipe);
+    }
+    return null;
+  });
 
   const getGreeting = () => {
     const now = new Date();
