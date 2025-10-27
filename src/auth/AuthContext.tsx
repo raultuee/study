@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // src/auth/AuthContext.tsx
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '@/api/axiosConfig'; // Importamos nossa instância do axios
 
@@ -12,9 +11,6 @@ interface AuthContextType {
   logout: () => void;
 }
 
-interface UserData {
-  userId: string;
-}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -66,6 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 };
 
 // Hook customizado para facilitar o uso do contexto
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
