@@ -39,7 +39,7 @@
   body {
     @apply bg-background text-foreground;
     @apply font-sans;
-    font-family: 'Geist', sans-serif;
+    font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 400;
   }
 }

@@ -1,62 +1,75 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// src/auth/AuthContext.tsx
+import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '@/api/axiosConfig'; // Importamos nossa instância do axios
 
-interface User {
-  email: string;
+// Interfaces para os dados e o contexto
+interface AuthContextType {
+  token: string | null;
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (email: string, password: string) => Promise<boolean>;
+  logout: () => void;
 }
 
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  logout: () => void;
+interface UserData {
+  userId: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Adiciona um temporizador para simular o delay
-    const timer = setTimeout(() => {
-      const saved = localStorage.getItem("user");
-      if (saved) {
-        setUser(JSON.parse(saved));
-      }
-      // Finaliza o loading somente após 2 segundos
-      setLoading(false);
-    }, 2000); // 2000 milissegundos = 2 segundos
-
-    // Boa prática: Limpa o temporizador se o componente for desmontado
-    return () => clearTimeout(timer);
-  }, []);
-
-  const login = async (email: string, password: string) => {
-    if (email === "emailteste@gmail.com" && password === "123456AB") {
-      const userData = { email };
-      setUser(userData);
-      localStorage.setItem("user", JSON.stringify(userData));
-      return true;
+    // Sincroniza o estado com o localStorage
+    if (token) {
+      localStorage.setItem('token', token);
+    } else {
+      localStorage.removeItem('token');
     }
-    return false;
+  }, [token]);
+
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      const response = await api.post('/auth/login', { email, password });
+      if (response.data.token) {
+        setToken(response.data.token);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Erro no login:", error);
+      return false;
+    }
+  };
+
+  const register = async (email: string, password: string): Promise<boolean> => {
+    try {
+      await api.post('/auth/register', { email, password });
+      return true;
+    } catch (error) {
+      console.error("Erro no registro:", error);
+      return false;
+    }
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+    setToken(null);
+    navigate('/login');
   };
 
-  return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
+  const value = { token, login, register, logout };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth deve ser usado dentro de AuthProvider");
-  return ctx;
-}
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+// Hook customizado para facilitar o uso do contexto
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};

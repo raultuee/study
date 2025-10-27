@@ -3,6 +3,71 @@ import { Calendar, MessageSquare, Brain, Users, CheckCircle, ArrowRight, Menu, X
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
+interface AnimatedNumberProps {
+  targetValue: number;
+  duration?: number;
+  startOnVisible: boolean;
+  suffix?: string;
+  prefix?: string;
+  precision?: number;
+  className?: string;
+}
+
+const easeOutQuad = (t: number): number => t * (2 - t);
+
+const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
+  targetValue,
+  duration = 1500,
+  startOnVisible,
+  suffix = '',
+  prefix = '',
+  precision = 0,
+  className = ''
+}) => {
+  const [currentValue, setCurrentValue] = useState(0);
+  const animationFrameRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!startOnVisible) return;
+
+    const animate = (timestamp: number) => {
+      if (startTimeRef.current === null) {
+        startTimeRef.current = timestamp;
+      }
+
+      const elapsed = timestamp - startTimeRef.current;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeOutQuad(progress);
+      
+      const newValue = easedProgress * targetValue;
+      setCurrentValue(newValue);
+
+      if (progress < 1) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+      } else {
+        setCurrentValue(targetValue);
+      }
+    };
+
+    animationFrameRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      startTimeRef.current = null;
+    };
+  }, [startOnVisible, targetValue, duration]);
+
+  return (
+    <span className={className}>
+      {prefix}{currentValue.toFixed(precision)}{suffix}
+    </span>
+  );
+};
+
+
 export function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [visibleSections, setVisibleSections] = useState(new Set());
@@ -166,6 +231,8 @@ export function Home() {
         </div>
       </section>
 
+      
+
       {/* Features Section */}
       <section 
         id="recursos" 
@@ -210,7 +277,7 @@ export function Home() {
       <section 
         id="beneficios" 
         data-reveal
-        className={`py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-600 to-blue-800 transition-all duration-1000 delay-300 ${
+        className={`py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-600 to-blue-800 transition-all duration-1000 delay-300 ${
           visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
@@ -242,6 +309,59 @@ export function Home() {
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
+        </div>
+      </section>
+
+      <section 
+        id="resultados"
+        data-reveal
+        className={`py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-800 to-white transition-all duration-1000 delay-300 ${
+          visibleSections.has('resultados') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10' 
+        }`}
+      >
+        <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Resultados de estudantes
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
+              
+              <div className="flex flex-col items-center">
+                <AnimatedNumber 
+                  targetValue={10} 
+                  duration={1500}
+                  startOnVisible={visibleSections.has('resultados')}
+                  suffix="h"
+                  className="text-6xl md:text-7xl font-bold text-blue-900"
+                />
+                <p className="text-xl text-blue-900 mt-2">economizadas por semana</p>
+              </div>
+              
+              <div className="flex flex-col items-center">
+                <AnimatedNumber 
+                  targetValue={40} 
+                  duration={1500}
+                  startOnVisible={visibleSections.has('resultados')}
+                  suffix="%"
+                  className="text-6xl md:text-7xl font-bold text-blue-900"
+                />
+                <p className="text-xl text-blue-900 mt-2">de aumento nas notas</p>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <AnimatedNumber
+                  targetValue={3} 
+                  duration={1500}
+                  startOnVisible={visibleSections.has('resultados')}
+                  suffix="x"
+                  className="text-6xl md:text-7xl font-bold text-blue-900"
+                />
+                <p className="text-xl text-blue-900 mt-2">mais rápido para organizar sua rotina</p>
+              </div>
+
+            </div>
         </div>
       </section>
 
@@ -296,6 +416,121 @@ export function Home() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section 
+        id="planos" 
+        data-reveal
+        className={`py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-blue-50 transition-all duration-1000 delay-400 ${
+          visibleSections.has('planos') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Planos que cabem no seu bolso
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Escolha o plano ideal para transformar seus estudos
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Plano ++ */}
+            <Card className="border-2 border-blue-200 hover:border-blue-400 hover:shadow-2xl transition-all duration-300">
+              <CardContent className="p-8">
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Plano ++</h3>
+                  <p className="text-gray-600">Para estudantes que querem resultados reais</p>
+                </div>
+                
+                <div className="mb-8">
+                  <div className="flex items-end gap-2">
+                    <span className="text-5xl font-bold text-blue-600">R$ 39</span>
+                    <span className="text-gray-600 mb-2">/mês</span>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-1">Cobrado anualmente • Economize 20%</p>
+                </div>
+
+                <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 mb-8 py-6 text-lg">
+                  Começar Agora
+                </Button>
+
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Acesso ilimitado a todas as funções</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Fóruns de discussão privados</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Personalização do dashboard</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Diversos quizzes</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Badge exclusivo no perfil</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* Plano +++ */}
+            <Card className="border-2 border-blue-400 hover:border-blue-600 hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-blue-600 text-white px-6 py-1 text-sm font-semibold">
+                Mais Popular
+              </div>
+              <CardContent className="p-8 pt-12">
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Plano +++</h3>
+                  <p className="text-gray-600">Para quem quer o máximo desempenho</p>
+                </div>
+                
+                <div className="mb-8">
+                  <div className="flex items-end gap-2">
+                    <span className="text-5xl font-bold text-blue-600">R$ 79</span>
+                    <span className="text-gray-600 mb-2">/mês</span>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-1">Cobrado anualmente • Economize 20%</p>
+                </div>
+
+                <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 mb-8 py-6 text-lg">
+                  Começar Agora
+                </Button>
+
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Tudo do Plano ++</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">IA auxiliar personalizada (Guru)</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Suporte prioritário</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Relatórios avançados de progresso</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">Acesso antecipado a novos recursos</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

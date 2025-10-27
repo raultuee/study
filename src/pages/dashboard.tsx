@@ -659,16 +659,19 @@ export function Dashboard() {
               </h1>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-auto">
-              <Card className="col-span-2 md:col-span-2 lg:col-span-2 row-span-2 flex flex-col w-[550px] justify-center p-4 md:p-5 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden min-h-[200px]">
-                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-2">
-                  <CardTitle className="text-white text-lg md:text-xl lg:text-2xl mb-1 transform group-hover:-translate-y-4 transition-transform duration-500">
-                    Continuar Estudando
-                  </CardTitle>
-                  <p className="text-white/90 text-xs md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
-                    Retome seus estudos de onde parou. Você está no módulo de Sustentabilidade Ambiental.
-                  </p>
-                </CardHeader>
-              </Card>
+              
+                <Card className="col-span-2 md:col-span-2 lg:col-span-2 row-span-2 flex flex-col w-[550px] justify-center p-4 md:p-5 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden min-h-[200px]">
+                  <a href="/desk">
+                    <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-2">
+                      <CardTitle className="text-white text-lg md:text-xl lg:text-2xl mb-1 transform group-hover:-translate-y-4 transition-transform duration-500">
+                        Iniciar Estudos
+                      </CardTitle>
+                      <p className="text-white/90 text-xs md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
+                        Inicie sua rotina de estudos com várias ferramentas disponíveis.
+                      </p>
+                    </CardHeader>
+                  </a>
+                </Card>
 
               <Card onClick={() => setCurrentView('tarefas')} className="col-span-2 md:col-span-1 h-32 md:h-36 flex flex-col justify-center p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
                 <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">

@@ -9,31 +9,11 @@ export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordError, setPasswordError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // 🧠 Função que valida a senha
-  const validatePassword = (password: string) => {
-    const minLength = password.length >= 8;
-    const hasLetter = /[a-zA-Z]/.test(password);
-    const hasNumber = /\d/.test(password);
-
-    if (!minLength) return "A senha deve ter pelo menos 8 caracteres.";
-    if (!hasLetter || !hasNumber) return "A senha deve conter letras e números.";
-    return "";
-  };
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const error = validatePassword(password);
-    if (error) {
-      setPasswordError(error);
-      return;
-    } else {
-      setPasswordError('');
-    }
 
     const success = await login(email, password);
 
@@ -95,26 +75,24 @@ export function Login() {
                 </button>
               </div>
 
-              {/* Erro de senha */}
-              {passwordError && (
-                <p className="text-red-400 text-sm">{passwordError}</p>
-              )}
-
-              {/* Botões */}
-              <Button
-                type="submit"
-                className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white py-6 rounded-lg font-semibold border border-white/30 transition-all"
-              >
-                Entrar
-              </Button>
-
-              <Button
-                className="w-full text-white rounded-lg font-semibold transition-all"
-                variant="link"
-                type="button"
-              >
-                Cadastrar-se
-              </Button>
+              <div>
+                {/* Botões */}
+                <Button
+                  type="submit"
+                  className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white py-6 rounded-lg font-semibold border border-white/30 transition-all mb-5"
+                >
+                  Entrar
+                </Button>
+                <a href="/cadastro" >
+                  <Button
+                    className="w-full text-white rounded-lg font-semibold transition-all"
+                    variant="link"
+                    type="button"
+                  >
+                    Cadastrar-se
+                  </Button>
+                </a>
+              </div>
             </div>
           </div>
         </form>
