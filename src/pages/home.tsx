@@ -71,8 +71,7 @@ export function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [visibleSections, setVisibleSections] = useState(new Set());
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [scrollY, setScrollY] = useState(0);
+  const [, setScrollY] = useState(0);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
