@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
-// MODIFICADO: Adicionado 'Check'
-import { Lock, Plus, User, Calendar, Clock, ChevronRight, ChevronLeft, Check } from 'lucide-react'; 
+import { Lock, Plus, User, Calendar, Clock, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Progress } from "@/components/ui/progress";
 import { CardDescription } from "@/components/ui/card";
-import { Trophy, PlusIcon, Trash2 } from "lucide-react"; // Removido 'Check' duplicado
+import { Trophy, Check, PlusIcon, Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,14 +26,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from '@/auth/AuthContext';
-
-// IMPORTAÇÕES PARA O GRID DINÂMICO
-import { Responsive, WidthProvider } from 'react-grid-layout';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
-
-// Wrapper para o grid responsivo
-const ResponsiveGridLayout = WidthProvider(Responsive);
 
 // Tipos
 type Todo = {
@@ -233,7 +224,7 @@ function AgendaContent() {
   const getSortedAppointments = () => {
     return [...appointments].sort((a, b) => {
       const dateA = new Date(`${a.date}T${a.time}`);
-      const dateB = new Date(`${b.date}T${a.time}`);
+      const dateB = new Date(`${b.date}T${b.time}`);
       return dateA.getTime() - dateB.getTime();
     });
   };
@@ -615,45 +606,9 @@ export function Dashboard() {
     { id: 3, title: "Apresentação TCC", date: "2025-10-20", time: "14:30", description: "Defesa do trabalho de conclusão de curso" },
   ]);
   
-  const [layouts, setLayouts] = useState({
-    lg: [
-      { i: 'estudos', x: 0, y: 0, w: 2, h: 2 },
-      { i: 'tarefas', x: 2, y: 0, w: 1, h: 1 },
-      { i: 'conquistas', x: 3, y: 0, w: 1, h: 1 },
-      { i: 'agenda', x: 2, y: 1, w: 2, h: 1 },
-      { i: 'perfil', x: 0, y: 2, w: 1, h: 1 },
-      { i: 'quizzes', x: 1, y: 2, w: 1, h: 1 },
-      { i: 'forum', x: 2, y: 2, w: 1, h: 1 },
-      { i: 'plus', x: 3, y: 2, w: 1, h: 1 },
-      { i: 'planos', x: 0, y: 3, w: 4, h: 1 },
-    ],
-    md: [
-      { i: 'estudos', x: 0, y: 0, w: 2, h: 2 },
-      { i: 'tarefas', x: 2, y: 0, w: 1, h: 1 },
-      { i: 'conquistas', x: 2, y: 1, w: 1, h: 1 },
-      { i: 'agenda', x: 0, y: 2, w: 3, h: 1 },
-      { i: 'perfil', x: 0, y: 3, w: 1, h: 1 },
-      { i: 'quizzes', x: 1, y: 3, w: 1, h: 1 },
-      { i: 'forum', x: 0, y: 4, w: 2, h: 1 },
-      { i: 'plus', x: 2, y: 4, w: 1, h: 1 }, 
-      { i: 'planos', x: 0, y: 5, w: 3, h: 1 },
-    ]
-  });
-
-  // NOVO: Estado para controlar o modo de edição
-  const [isEditMode, setIsEditMode] = useState(false);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onLayoutChange = (layout: any, allLayouts: any) => {
-    // Só atualiza o layout se estiver em modo de edição
-    if (isEditMode) {
-      // Em um app real, você salvaria 'allLayouts' no localStorage ou DB
-      setLayouts(allLayouts);
-    }
-  };
-
   const equipe = "💻 Deseja entrar para a Equipe de Desenvolvimento Study? Acesse: https://discord.gg/3M4xNrnsQv"
   useState(() => {
+    // Só executa no client
     if (typeof window !== "undefined") {
       console.log(equipe);
     }
@@ -711,37 +666,16 @@ export function Dashboard() {
         return <AgendaContent />;
       default:
         return (
-          <div className="max-w-7xl mx-auto space-y-6 w-full">
-            
-            {/* MODIFICADO: Header com botão de concluir */}
-            <div className="flex items-center justify-between">
+          <div className="max-w-7xl mx-auto space-y-6">
+            <div className="space-y-1">
               <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">
                 {getGreeting()}, Usuário Teste.
               </h1>
-              {/* NOVO: Botão para sair do modo de edição */}
-              {isEditMode && (
-                <Button onClick={() => setIsEditMode(false)} className="bg-green-600 hover:bg-green-700 text-white">
-                  <Check className="h-4 w-4 mr-2" />
-                  Concluir Edição
-                </Button>
-              )}
             </div>
-
-            <ResponsiveGridLayout
-              layouts={layouts}
-              onLayoutChange={onLayoutChange}
-              breakpoints={{ lg: 1024, md: 768, sm: 640, xs: 0 }}
-              cols={{ lg: 4, md: 3, sm: 2, xs: 1 }}
-              rowHeight={144} 
-              margin={[16, 16]} 
-              className="layout"
-              // MODIFICADO: Controlado pelo estado 'isEditMode'
-              isDraggable={isEditMode}
-              isResizable={isEditMode}
-            >
-              <div key="estudos">
-                <a href="/desk" className="w-full h-full">
-                  <Card className="w-full h-full flex flex-col justify-center p-4 md:p-5 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-auto">
+              
+                <Card className="col-span-2 md:col-span-2 lg:col-span-2 row-span-2 flex flex-col w-[550px] justify-center p-4 md:p-5 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden min-h-[200px]">
+                  <a href="/desk">
                     <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-2">
                       <CardTitle className="text-white text-lg md:text-xl lg:text-2xl mb-1 transform group-hover:-translate-y-4 transition-transform duration-500">
                         Iniciar Estudos
@@ -750,116 +684,84 @@ export function Dashboard() {
                         Inicie sua rotina de estudos com várias ferramentas disponíveis.
                       </p>
                     </CardHeader>
-                  </Card>
-                </a>
-              </div>
-
-              <div key="tarefas">
-                <Card onClick={() => setCurrentView('tarefas')} className="w-full h-full flex flex-col justify-center p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
-                      Tarefas
-                    </CardTitle>
-                    <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
-                      Aliste suas tarefas pendentes.
-                    </p>
-                  </CardHeader>
+                  </a>
                 </Card>
-              </div>
 
-              <div key="conquistas">
-                <Card onClick={() => setCurrentView('conquistas')} className="w-full h-full flex flex-col justify-center p-2 md:p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
-                      Conquistas
-                    </CardTitle>
-                    <p className="text-white/90 text-[10px] md:text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
-                      Seu progresso na plataforma
-                    </p>
-                  </CardHeader>
-                </Card>
-              </div>
+              <Card onClick={() => setCurrentView('tarefas')} className="col-span-2 md:col-span-1 h-32 md:h-36 flex flex-col justify-center p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
+                    Tarefas
+                  </CardTitle>
+                  <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
+                    Aliste suas tarefas pendentes.
+                  </p>
+                </CardHeader>
+              </Card>
 
-              <div key="agenda">
-                <Card onClick={() => setCurrentView('agenda')} className="w-full h-full flex flex-col justify-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
-                      Agenda pessoal
-                    </CardTitle>
-                    <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs md:max-w-md leading-relaxed">
-                      {nextAppointment ? `${nextAppointment.title} - ${nextAppointment.time}` : 'Nenhum compromisso próximo'}
-                    </p>
-                  </CardHeader>
-                </Card>
-              </div>
+              <Card onClick={() => setCurrentView('conquistas')} className="col-span-1 h-32 md:h-36 flex flex-col justify-center p-2 md:p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
+                    Conquistas
+                  </CardTitle>
+                  <p className="text-white/90 text-[10px] md:text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
+                    Seu progresso na plataforma
+                  </p>
+                </CardHeader>
+              </Card>
 
-              <div key="perfil">
-                <Card onClick={() => setCurrentView('perfil')} className="w-full h-full flex flex-col justify-center p-2 md:p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-xs md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
-                      Perfil de usuário
-                    </CardTitle>
-                    <p className="text-white/90 text-[10px] md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
-                      Visualize e edite seu perfil
-                    </p>
-                  </CardHeader>
-                </Card>
-              </div>
+              <Card onClick={() => setCurrentView('agenda')} className="col-span-2 md:col-span-3 lg:col-span-2 h-32 md:h-36 flex flex-col justify-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
+                    Agenda pessoal
+                  </CardTitle>
+                  <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs md:max-w-md leading-relaxed">
+                    {nextAppointment ? `${nextAppointment.title} - ${nextAppointment.time}` : 'Nenhum compromisso próximo'}
+                  </p>
+                </CardHeader>
+              </Card>
 
-              <div key="quizzes">
-                <Card className="w-full h-full flex flex-col justify-center p-2 md:p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-xs md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
-                      <Lock/>
-                    </CardTitle>
-                    <p className="text-white/90 text-[10px] md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
-                      Quizzes
-                    </p>
-                  </CardHeader>
-                </Card>
-              </div>
+              <Card onClick={() => setCurrentView('perfil')} className="col-span-1 h-32 md:h-36 flex flex-col justify-center p-2 md:p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-xs md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
+                    Perfil de usuário
+                  </CardTitle>
+                  <p className="text-white/90 text-[10px] md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
+                    Visualize e edite seu perfil
+                  </p>
+                </CardHeader>
+              </Card>
 
-              <div key="forum">
-                <Card onClick={() => setCurrentView('forum')} className="w-full h-full flex flex-col justify-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
-                      Fórum da Turma
-                    </CardTitle>
-                    <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
-                      Converse com colegas
-                    </p>
-                  </CardHeader>
-                </Card>
-              </div>
+              <Card className="col-span-1 h-32 md:h-36 flex flex-col justify-center p-2 md:p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-xs md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
+                    <Lock/>
+                  </CardTitle>
+                  <p className="text-white/90 text-[10px] md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
+                    Quizzes
+                  </p>
+                </CardHeader>
+              </Card>
 
-              {/* MODIFICADO: Card "Plus" agora é o gatilho */}
-              <div key="plus">
-                <Card 
-                  onClick={() => setIsEditMode(true)}
-                  disabled={isEditMode} 
-                  className={`
-                    w-full h-full flex flex-col justify-center items-center p-3 md:p-4 rounded-2xl md:rounded-3xl 
-                    border-white/20 text-white transition-all duration-500 overflow-hidden
-                    ${isEditMode 
-                      ? 'bg-gray-700/30 opacity-50 cursor-not-allowed' // Desabilitado
-                      : 'bg-white/10 backdrop-blur-sm group hover:bg-white/20 cursor-pointer' // Normal
-                    }
-                  `}
-                >
-                  {/* Só mostra o '+' se NÃO estiver em modo de edição */}
-                  {!isEditMode && <Plus/>}
-                </Card>
-              </div>
-              
-              <div key="planos">
-                <a href="/planos" className='w-full h-6 md:h-6 block'>
-                  <Card className="w-full h-full flex flex-col justify-center items-center p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+              <Card onClick={() => setCurrentView('forum')} className="col-span-2 md:col-span-2 lg:col-span-1 h-32 md:h-36 flex flex-col justify-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
+                    Fórum da Turma
+                  </CardTitle>
+                  <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
+                    Converse com colegas
+                  </p>
+                </CardHeader>
+              </Card>
+
+              <Card className="col-span-2 md:col-span-2 lg:col-span-1 h-32 md:h-36 flex flex-col justify-center items-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
+                <Plus/>
+              </Card>
+              <a href="/planos" className='col-span-2 md:col-span-3 lg:col-span-4 h-6 md:h-6'>
+                  <Card className=" flex flex-col justify-center items-center p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden">
                     <p className='text-xs'>Adquira nossos planos e obtenha acesso a todos os recursos</p>
                   </Card>
-                </a>
-              </div>
-
-            </ResponsiveGridLayout>
+              </a>
+            </div>
           </div>
         );
     }

@@ -248,9 +248,11 @@ export function Home() {
                   Entrar
                 </Button>
               </a>
-              <Button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                Começar Grátis
-              </Button>
+              <a href="/cadastro">
+                <Button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                  Começar Grátis
+                </Button>
+              </a>
             </div>
 
             <button 
@@ -269,9 +271,7 @@ export function Home() {
               <a href="#beneficios" className="block text-gray-700 hover:text-blue-600 hover:pl-2 transition-all">Benefícios</a>
               <a href="#depoimentos" className="block text-gray-700 hover:text-blue-600 hover:pl-2 transition-all">Depoimentos</a>
               <a href="/login"><Button variant="ghost" className="w-full text-blue-600">Entrar</Button></a>
-              <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800">
-                Começar Grátis
-              </Button>
+              <a href=""><Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800">Começar Grátis</Button></a>
             </div>
           </div>
         )}
@@ -306,10 +306,12 @@ export function Home() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+            <a href="/cadastro">
             <Button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-2xl transition-all hover:scale-105 group">
               Começar Gratuitamente
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
+            </a>
             <Button variant="outline" className="text-lg px-8 py-6 rounded-xl border-2 border-blue-600 text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all">
               Ver Demonstração
             </Button>
@@ -421,10 +423,12 @@ export function Home() {
           </div>
 
           <div className="mt-16 text-center">
-            <Button className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-6 rounded-xl shadow-2xl hover:shadow-3xl transition-all hover:scale-105 group">
-              Comece Sua Transformação Hoje
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <a href="/cadastro">
+              <Button className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-6 rounded-xl shadow-2xl hover:shadow-3xl transition-all hover:scale-105 group">
+                Comece Sua Transformação Hoje
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -608,9 +612,11 @@ export function Home() {
                   <p className="text-sm text-gray-500 mt-1">Cobrado anualmente • Economize 20%</p>
                 </div>
 
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 mb-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                  Começar Agora
-                </Button>
+                <a href="/cadastro">
+                  <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 mb-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                    Começar Agora
+                  </Button>
+                </a>
 
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3 group cursor-pointer">
@@ -659,9 +665,11 @@ export function Home() {
                   <p className="text-sm text-gray-500 mt-1">Cobrado anualmente • Economize 20%</p>
                 </div>
 
+              <a href="/cadastro">
                 <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 mb-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105">
                   Começar Agora
                 </Button>
+              </a>
 
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3 group cursor-pointer">
@@ -705,10 +713,12 @@ export function Home() {
           <p className="text-xl text-blue-100 mb-8">
             Comece gratuitamente hoje e descubra como estudar de forma mais inteligente
           </p>
-          <Button className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-10 py-6 rounded-xl shadow-2xl hover:shadow-3xl transition-all hover:scale-110 group">
-            Criar Conta Grátis
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-          </Button>
+          <a href="/cadastro">
+            <Button className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-10 py-6 rounded-xl shadow-2xl hover:shadow-3xl transition-all hover:scale-110 group">
+              Criar Conta Grátis
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+            </Button>
+          </a>
           <p className="mt-4 text-blue-200 text-sm flex items-center justify-center gap-2 flex-wrap">
             <span>✓ Sem cartão de crédito</span>
             <span>•</span>
