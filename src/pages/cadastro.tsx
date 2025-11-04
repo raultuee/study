@@ -1,4 +1,4 @@
-// ARQUIVO MODIFICADO: cadastro.tsx
+// src/pages/cadastro.tsx
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Eye, EyeOff } from 'lucide-react';
@@ -7,6 +7,7 @@ import { useAuth } from '@/auth/AuthContext';
 import { toast } from 'sonner';                  
 
 export function Cadastro() {
+  const [name, setName] = useState(''); // ✅ novo campo
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,7 +15,7 @@ export function Cadastro() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  
+
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -22,13 +23,11 @@ export function Cadastro() {
     const minLength = password.length >= 8;
     const hasLetter = /[a-zA-Z]/.test(password);
     const hasNumber = /\d/.test(password);
-
     if (!minLength) return "A senha deve ter pelo menos 8 caracteres.";
     if (!hasLetter || !hasNumber) return "A senha deve conter letras e números.";
     return "";
   };
-  
-  // FUNÇÃO MODIFICADA
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setPasswordError('');
@@ -44,15 +43,14 @@ export function Cadastro() {
       setConfirmPasswordError("As senhas não coincidem.");
       return;
     }
-    
-    // Lógica de conexão com o backend
-    const success = await register(email, password);
+
+    const success = await register(name, email, password); // ✅ agora inclui o nome
 
     if (success) {
       toast.success("Cadastro realizado com sucesso!", {
         description: "Você já pode fazer o login com suas credenciais.",
       });
-      navigate('/login'); // Redireciona para o login
+      navigate('/login');
     } else {
       toast.error("Falha no cadastro.", {
         description: "Este e-mail já pode estar em uso. Tente novamente.",
@@ -62,22 +60,32 @@ export function Cadastro() {
 
   return (
     <div className="flex items-center justify-center w-full min-h-screen p-4">
-      {/* O resto do seu JSX permanece o mesmo... */}
-      {/* ... */}
       <div className="flex items-center w-full justify-center">
-          {/* Adicionei o onSubmit ao form */}
-          <form onSubmit={handleSignup} className="w-full max-w-md space-y-8">
-            {/* Email Input */}
-            <div>
-              <input
-                required
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                className="w-full bg-transparent text-white text-lg py-3 px-2 border-b-2 border-white/40 focus:border-white focus:outline-none transition placeholder:text-white/50"
-              />
-            </div>
+        <form onSubmit={handleSignup} className="w-full max-w-md space-y-8">
+
+          {/* Nome */}
+          <div>
+            <input
+              required
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Nome de usuário"
+              className="w-full bg-transparent text-white text-lg py-3 px-2 border-b-2 border-white/40 focus:border-white focus:outline-none transition placeholder:text-white/50"
+            />
+          </div>
+
+          {/* Email */}
+          <div>
+            <input
+              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              className="w-full bg-transparent text-white text-lg py-3 px-2 border-b-2 border-white/40 focus:border-white focus:outline-none transition placeholder:text-white/50"
+            />
+          </div>
             {/* Password Input */}
             <div className="relative">
               <input

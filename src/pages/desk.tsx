@@ -649,7 +649,7 @@ export function Desk() {
                       <Button
                         key={tool.id}
                         onClick={() => openTool(tool)}
-                        className={`${tool.color} hover:opacity-80 h-auto py-4 flex flex-col items-center gap-2 text-white`}
+                        className={`${tool.color} hover:${tool.color} h-auto py-4 flex flex-col items-center gap-2 text-white`}
                       >
                         <Icon className="h-6 w-6" />
                         <span className="text-xs text-center">{tool.name}</span>

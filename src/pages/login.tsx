@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Eye, EyeOff } from 'lucide-react'; // 👁️ ícones
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/auth/AuthContext';
 
 export function Login() {
@@ -14,37 +14,28 @@ export function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const success = await login(email, password);
-
     if (success) {
-      toast.success("Login realizado com sucesso!");
+      toast.success('Login realizado com sucesso!');
       navigate('/dashboard');
     } else {
-      toast.error("Usuário ou senha incorretos.");
+      toast.error('Usuário ou senha incorretos.');
     }
   };
 
   return (
     <div className="flex items-center justify-center w-full min-h-screen p-4">
       <div className="w-full max-w-6xl grid md:grid-cols-2 gap-8">
-        
-        {/* Lado esquerdo - Branding */}
         <div className="flex flex-col items-center justify-center">
           <div className="text-center">
-            <h1 className="text-8xl md:text-9xl font-bold text-white mb-4 tracking-tight">
-              Study
-            </h1>
+            <h1 className="text-8xl md:text-9xl font-bold text-white mb-4 tracking-tight">Study</h1>
             <div className="w-32 h-1 bg-white/60 mx-auto rounded-full"></div>
           </div>
         </div>
 
-        {/* Lado direito - Formulário */}
         <form onSubmit={handleLogin}>
           <div className="flex items-center justify-center">
             <div className="w-full max-w-md space-y-8">
-              
-              {/* Email */}
               <div>
                 <input
                   required
@@ -56,11 +47,10 @@ export function Login() {
                 />
               </div>
 
-              {/* Senha com botão de olho */}
               <div className="relative">
                 <input
                   required
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Senha"
@@ -76,19 +66,14 @@ export function Login() {
               </div>
 
               <div>
-                {/* Botões */}
                 <Button
                   type="submit"
                   className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white py-6 rounded-lg font-semibold border border-white/30 transition-all mb-5"
                 >
                   Entrar
                 </Button>
-                <a href="/cadastro" >
-                  <Button
-                    className="w-full text-white rounded-lg font-semibold transition-all"
-                    variant="link"
-                    type="button"
-                  >
+                <a href="/cadastro">
+                  <Button className="w-full text-white rounded-lg font-semibold transition-all" variant="link" type="button">
                     Cadastrar-se
                   </Button>
                 </a>
