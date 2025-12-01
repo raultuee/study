@@ -1194,7 +1194,7 @@ export function Dashboard() {
           <div className="max-w-7xl mx-auto space-y-6">
             <div className="space-y-1">
               <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">
-                {getGreeting()}, Usuário Teste.
+                {getGreeting()}, {displayName}.
               </h1>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-auto">
@@ -1227,7 +1227,7 @@ export function Dashboard() {
                   <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
                     Conquistas
                   </CardTitle>
-                  <p className="text-white/90 text-[10px] md:text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
+                  <p className="text-white/90 text-xs md:text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
                     Seu progresso na plataforma
                   </p>
                 </CardHeader>
@@ -1249,7 +1249,7 @@ export function Dashboard() {
                   <CardTitle className="text-white text-xs md:text-base transform group-hover:-translate-y-4 transition-transform duration-500">
                     Perfil de usuário
                   </CardTitle>
-                  <p className="text-white/90 text-[10px] md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
+                  <p className="text-white/90 text-xs md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 delay-200 max-w-xs leading-relaxed">
                     Visualize e edite seu perfil
                   </p>
                 </CardHeader>
@@ -1281,7 +1281,6 @@ export function Dashboard() {
               </Card>
 
               <Card
-                onClick={() => setIsEditing(true)}
                 className="col-span-2 md:col-span-2 lg:col-span-1 h-32 md:h-36 flex flex-col justify-center items-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-500 cursor-pointer overflow-hidden"
               >
                 <Plus />
@@ -1352,7 +1351,6 @@ export function Dashboard() {
                 <User className="mr-2 h-4 w-4" />
                 <span>Perfil</span>
               </DropdownMenuItem>
-              {/* ... resto do menu ... */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

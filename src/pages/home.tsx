@@ -523,19 +523,19 @@ export function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: "Ana Silva",
-                role: "Estudante de Engenharia",
+                name: "Joaquim Rafael",
+                role: "Estudante de Mecatrônica",
                 text: "Minha organização melhorou 100%! Nunca mais perdi um prazo e minhas notas subiram muito."
               },
               {
-                name: "Carlos Santos",
-                role: "Cursinho Pré-Vestibular",
-                text: "A IA me ajuda a tirar dúvidas na madrugada. É como ter um tutor particular 24/7!"
+                name: "Eduardo Rodrigues",
+                role: "Estudante",
+                text: "Os quizzes são perfeitos para fixar conteúdo. Indispensável para quem estuda muito."
               },
               {
-                name: "Julia Oliveira",
+                name: "Isaac Martins",
                 role: "Estudante de Medicina",
-                text: "Os quizzes são perfeitos para fixar conteúdo. Indispensável para quem estuda muito."
+                text: "A IA me ajuda a tirar dúvidas na madrugada. É como ter um tutor particular 24/7!"
               }
             ].map((testimonial, index) => (
               <Card 
