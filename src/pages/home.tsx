@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { Calendar, MessageSquare, Brain, Users, CheckCircle, ArrowRight, Menu, X, Trophy, TrendingUp, Zap } from 'lucide-react';
+import { Calendar, Brain, Users, CheckCircle, ArrowRight, Menu, X, Trophy, TrendingUp, Zap, Book } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { motion, AnimatePresence } from 'framer-motion';
+
+import Estudantes from "@/../public/estudantes.jpg";
 
 interface AnimatedNumberProps {
   targetValue: number;
@@ -73,6 +76,7 @@ export function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [, setScrollY] = useState(0);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const [showRequestAlert, setShowRequestAlert] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -123,9 +127,9 @@ export function Home() {
       color: "bg-blue-500"
     },
     {
-      icon: MessageSquare,
-      title: "IA ao Seu Lado",
-      description: "Chat instantâneo com inteligência artificial para tirar dúvidas, explicar conceitos e ajudar nos estudos 24/7.",
+      icon: Book,
+      title: "Mesa de Estudos",
+      description: "Tenha sua mesa de estudos virtual com diversas ferramentas para apoiar seu desenvolvimento.",
       color: "bg-blue-600"
     },
     {
@@ -203,6 +207,76 @@ export function Home() {
           left: 100%;
         }
       `}</style>
+
+      {/* Pop-up de Solicitação de Plano */}
+      <AnimatePresence>
+        {showRequestAlert && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="bg-gradient-to-br from-blue-900/90 to-blue-800/90 border-2 border-blue-500/60 rounded-2xl p-8 max-w-md w-full shadow-2xl backdrop-blur-md space-y-6 relative overflow-hidden"
+            >
+              {/* Efeito de brilho */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-transparent opacity-30"></div>
+              
+              <div className="flex items-start justify-between relative z-10">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-8 h-8 text-green-400 flex-shrink-0" />
+                  <h2 className="text-2xl font-bold text-white">Solicitação Enviada!</h2>
+                </div>
+                <button
+                  onClick={() => setShowRequestAlert(false)}
+                  className="text-white/60 hover:text-white transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="space-y-4 relative z-10">
+                <p className="text-white/90 leading-relaxed">
+                  Obrigado por seu interesse! 🎉 Sua solicitação foi enviada com sucesso.
+                </p>
+
+                <div className="bg-blue-800/50 rounded-lg p-4 border border-blue-500/30">
+                  <p className="text-sm text-white/80">
+                    📧 Caso o projeto tenha um sucesso, você receberá um e-mail com instruções para ativar a assinatura.
+                  </p>
+                </div>
+
+                <div className="space-y-2 bg-white/5 rounded-lg p-4 border border-white/10">
+                  <p className="text-sm text-white/80 font-semibold">Enquanto isso, você pode:</p>
+                  <ul className="text-sm text-white/70 space-y-1">
+                    <li>✓ Explorar todos os recursos grátis</li>
+                    <li>✓ Criar sua primeira tarefa</li>
+                    <li>✓ Fazer um quiz de teste</li>
+                  </ul>
+                </div>
+
+                <p className="text-xs text-white/60">
+                  Qualquer dúvida? Entre em contato conosco! 💙
+                </p>
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowRequestAlert(false)}
+                className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl relative z-10"
+              >
+                Entendi!
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Floating Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -284,13 +358,25 @@ export function Home() {
           visibleSections.has('hero') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 -z-10"
+          style={{
+            backgroundImage: `url(${Estudantes})`,
+            backgroundAttachment: 'fixed'
+          }}
+        />
+        
+        {/* Overlay gradient para melhor legibilidade */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white/70 -z-10" />
+
         <div className="max-w-7xl mx-auto text-center relative z-10">
-            <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full shadow-lg hover:shadow-xl transition-shadow">
-              <span className="text-blue-700 font-semibold text-sm flex items-center gap-2">
-                🎓 Sua jornada acadêmica começa aqui
-              </span>
-            </div>
-          
+          <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full shadow-lg hover:shadow-xl transition-shadow">
+            <span className="text-blue-700 font-semibold text-sm flex items-center gap-2">
+              🎓 Sua jornada acadêmica começa aqui
+            </span>
+          </div>
+        
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
             <span className="inline-block animate-slide-in-left">Organize.</span>{' '}
             <span className="inline-block animate-slide-in-left" style={{ animationDelay: '0.1s' }}>Estude.</span>
@@ -301,37 +387,40 @@ export function Home() {
           
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             A plataforma completa que transforma a rotina de estudos em resultados extraordinários. 
-            Agenda inteligente, IA, quizzes e comunidade em um só lugar.
+            Agenda inteligente, quizzes, anotações e comunidade em um só lugar.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
             <a href="/cadastro">
-            <Button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-2xl transition-all hover:scale-105 group">
-              Começar Gratuitamente
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+              <Button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-2xl transition-all hover:scale-105 group">
+                Começar Gratuitamente
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
             </a>
-            <Button variant="outline" className="text-lg px-8 py-6 rounded-xl border-2 border-blue-600 text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all">
-              Ver Demonstração
-            </Button>
+            <a href="/login">
+              <Button variant="outline" className="text-lg px-8 py-6 rounded-xl border-2 border-blue-600 text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all">
+                Ver Demonstração
+              </Button>
+            </a>
           </div>
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10"></div>
-              <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl shadow-2xl p-8 max-w-5xl mx-auto relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32 blur-3xl"></div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 space-y-4 relative">
-                  <div className="flex items-center space-x-4 animate-slide-in-left">
-                    <div className="w-12 h-12 bg-white/20 rounded-lg animate-pulse"></div>
-                    <div className="flex-1 h-4 bg-white/20 rounded"></div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="h-32 bg-white/10 rounded-lg hover:bg-white/20 transition-all cursor-pointer hover-lift"></div>
-                    <div className="h-32 bg-white/10 rounded-lg hover:bg-white/20 transition-all cursor-pointer hover-lift" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="h-32 bg-white/10 rounded-lg hover:bg-white/20 transition-all cursor-pointer hover-lift" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
+          
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10"></div>
+            <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl shadow-2xl p-8 max-w-5xl mx-auto relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32 blur-3xl"></div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 space-y-4 relative">
+                <div className="flex items-center space-x-4 animate-slide-in-left">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg animate-pulse"></div>
+                  <div className="flex-1 h-4 bg-white/20 rounded"></div>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="h-32 bg-white/10 rounded-lg hover:bg-white/20 transition-all cursor-pointer hover-lift"></div>
+                  <div className="h-32 bg-white/10 rounded-lg hover:bg-white/20 transition-all cursor-pointer hover-lift" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="h-32 bg-white/10 rounded-lg hover:bg-white/20 transition-all cursor-pointer hover-lift" style={{ animationDelay: '0.2s' }}></div>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </section>
 
@@ -611,11 +700,12 @@ export function Home() {
                   <p className="text-sm text-gray-500 mt-1">Cobrado anualmente • Economize 20%</p>
                 </div>
 
-                <a href="/cadastro">
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 mb-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                    Começar Agora
-                  </Button>
-                </a>
+                <Button 
+                  onClick={() => setShowRequestAlert(true)}
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 mb-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                >
+                  Solicitar
+                </Button>
 
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3 group cursor-pointer">
@@ -664,11 +754,12 @@ export function Home() {
                   <p className="text-sm text-gray-500 mt-1">Cobrado anualmente • Economize 20%</p>
                 </div>
 
-              <a href="/cadastro">
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 mb-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105">
-                  Começar Agora
-                </Button>
-              </a>
+              <Button 
+                onClick={() => setShowRequestAlert(true)}
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 mb-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105"
+              >
+                Solicitar
+              </Button>
 
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3 group cursor-pointer">
@@ -707,23 +798,23 @@ export function Home() {
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Pronto para revolucionar seus estudos?
+              Se você apoia nossa missão, solicite a continuação da plataforma!
             </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Comece gratuitamente hoje e descubra como estudar de forma mais inteligente
+            Nos ajude a tornar a Study uma realidade permanente para estudantes ao redor do mundo.
           </p>
-          <a href="/cadastro">
+          <a href="https://vakinha.com.br/5832159" target="_blank" rel="noopener noreferrer">
             <Button className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-10 py-6 rounded-xl shadow-2xl hover:shadow-3xl transition-all hover:scale-110 group">
-              Criar Conta Grátis
+              vakinha.com.br/5832159
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
             </Button>
           </a>
           <p className="mt-4 text-blue-200 text-sm flex items-center justify-center gap-2 flex-wrap">
-            <span>✓ Sem cartão de crédito</span>
+            <span>✓ Contribua</span>
             <span>•</span>
-            <span>✓ Sem compromisso</span>
+            <span>✓ Ajude</span>
             <span>•</span>
-            <span>✓ Cancele quando quiser</span>
+            <span>✓ Tenha</span>
           </p>
         </div>
       </section>

@@ -4,8 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { 
-  Search, 
-  MessageSquare, 
+  Search,
   FileText, 
   Calculator, 
   Clock, 
@@ -20,7 +19,8 @@ import {
   ArrowLeft,
   Move,
   ChevronsDown, 
-  ChevronsUp,   
+  ChevronsUp,
+  Lock,   
 } from 'lucide-react';
 import { 
   motion, 
@@ -77,7 +77,7 @@ type ToolWindowProps = {
 
 const tools: Tool[] = [
   { id: 'search', name: 'Pesquisa Rápida', icon: Search, color: 'bg-blue-500' },
-  { id: 'chat', name: 'Chat com IA', icon: MessageSquare, color: 'bg-purple-500' },
+  { id: 'chat', name: 'Chat com IA', icon: Lock, color: 'bg-gray-500' },
   { id: 'notes', name: 'Anotações', icon: FileText, color: 'bg-green-500' },
   { id: 'calculator', name: 'Calculadora', icon: Calculator, color: 'bg-orange-500' },
   { id: 'timer', name: 'Cronômetro', icon: Clock, color: 'bg-red-500' },

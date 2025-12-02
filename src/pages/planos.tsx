@@ -1,15 +1,86 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from "@/components/ui/button";
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Info, X } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-
-// 3. Componente da Página de Planos
 export function Planos() {
+  const [showPlansAlert, setShowPlansAlert] = useState(true);
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center p-4 md:p-6 lg:p-8 text-white">
-      <div className="w-full max-w-5xl mx-auto">
-            <section 
+    <>
+      {/* Pop-up de Alerta de Planos */}
+      <AnimatePresence>
+        {showPlansAlert && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="bg-gradient-to-br from-blue-900/90 to-blue-800/90 border-2 border-blue-500/60 rounded-2xl p-8 max-w-md w-full shadow-2xl backdrop-blur-md space-y-6 relative overflow-hidden"
+            >
+              {/* Efeito de brilho */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-transparent opacity-30"></div>
+              
+              <div className="flex items-start justify-between relative z-10">
+                <div className="flex items-center gap-3">
+                  <Info className="w-8 h-8 text-blue-300 flex-shrink-0" />
+                  <h2 className="text-2xl font-bold text-white">Planos Premium</h2>
+                </div>
+                <button
+                  onClick={() => setShowPlansAlert(false)}
+                  className="text-white/60 hover:text-white transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="space-y-4 relative z-10">
+                <p className="text-white/90 leading-relaxed">
+                  Os planos <span className="font-semibold text-blue-200">premium</span> do Study estão disponíveis por <span className="font-bold text-blue-300">solicitação</span>.
+                </p>
+
+                <div className="bg-blue-800/50 rounded-lg p-4 border border-blue-500/30">
+                  <p className="text-sm text-white/80">
+                    🚀 <span className="font-semibold">Se a demanda for alta</span>, continuaremos expandindo o projeto com novos recursos e plataformas!
+                  </p>
+                </div>
+
+                <div className="space-y-2 bg-white/5 rounded-lg p-4 border border-white/10">
+                  <p className="text-sm text-white/80 font-semibold">Como solicitar seu plano:</p>
+                  <ul className="text-sm text-white/70 space-y-1">
+                    <li>✓ Clique em "Solicitar" no plano desejado</li>
+                    <li>✓ Aguarde nossa confirmação</li>
+                  </ul>
+                </div>
+
+                <p className="text-xs text-white/60">
+                  Obrigado por acreditar no Study! 💙
+                </p>
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowPlansAlert(false)}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl relative z-10"
+              >
+                Entendi!
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="w-full min-h-screen flex flex-col items-center justify-center p-4 md:p-6 lg:p-8 text-white">
+        <div className="w-full max-w-5xl mx-auto">
+          <section 
             id="planos" 
             data-reveal
             className={`py-20 px-4 sm:px-6 lg:px-8 transition-all duration-1000 delay-400`}
@@ -44,7 +115,7 @@ export function Planos() {
                     </div>
 
                     <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 mb-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                      Começar Agora
+                      Solicitar
                     </Button>
 
                     <ul className="space-y-4">
@@ -95,7 +166,7 @@ export function Planos() {
                     </div>
 
                     <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 mb-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105">
-                      Começar Agora
+                      Solicitar
                     </Button>
 
                     <ul className="space-y-4">
@@ -125,7 +196,8 @@ export function Planos() {
               </div>
             </div>
           </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
