@@ -25,6 +25,11 @@ export function Login() {
     }
   };
 
+  const handleVisitorLogin = async () => {
+    toast.success('Bem-vindo ao Study! 👋');
+    navigate('/dashboard');
+  };
+
   return (
     <>
       {/* Pop-up de Alerta Beta */}
@@ -135,11 +140,19 @@ export function Login() {
                   >
                     Entrar
                   </Button>
+                  
                   <a href="/cadastro">
-                    <Button className="w-full text-white rounded-lg font-semibold transition-all" variant="link" type="button">
+                    <Button className="w-full text-white rounded-lg font-semibold transition-all mb-5" variant="link" type="button">
                       Cadastrar-se
                     </Button>
                   </a>
+                  <Button
+                    type="button"
+                    onClick={handleVisitorLogin}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 rounded-lg font-semibold transition-all mb-5"
+                  >
+                    Visita Rápida
+                  </Button>
                 </div>
               </div>
             </div>
