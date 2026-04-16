@@ -321,7 +321,7 @@ export function Home() {
                   Entrar
                 </Button>
               </a>
-              <a href="/cadastro">
+              <a href="/login">
                 <Button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all hover:scale-105">
                   Começar Grátis
                 </Button>
@@ -391,7 +391,7 @@ export function Home() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <a href="/cadastro">
+            <a href="/login">
               <Button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-2xl transition-all hover:scale-105 group">
                 Começar Gratuitamente
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -511,7 +511,7 @@ export function Home() {
           </div>
 
           <div className="mt-16 text-center">
-            <a href="/cadastro">
+            <a href="/login">
               <Button className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-6 rounded-xl shadow-2xl hover:shadow-3xl transition-all hover:scale-105 group">
                 Comece Sua Transformação Hoje
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />

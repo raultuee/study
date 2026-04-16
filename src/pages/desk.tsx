@@ -220,6 +220,11 @@ export function Desk() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const openTool = (tool: Tool) => {
+    // Chat com IA está desabilitado
+    if (tool.id === 'chat') {
+      return;
+    }
+    
     const existingTool = openTools.find(t => t.tool.id === tool.id);
     
     if (existingTool) {
@@ -645,11 +650,16 @@ export function Desk() {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                   {tools.map((tool) => {
                     const Icon = tool.icon;
+                    const isDisabled = tool.id === 'chat';
                     return (
                       <Button
                         key={tool.id}
                         onClick={() => openTool(tool)}
-                        className={`${tool.color} hover:${tool.color} h-auto py-4 flex flex-col items-center gap-2 text-white`}
+                        disabled={isDisabled}
+                        className={`${tool.color} hover:${tool.color} h-auto py-4 flex flex-col items-center gap-2 text-white ${
+                          isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                        title={isDisabled ? 'Chat com IA desabilitado' : ''}
                       >
                         <Icon className="h-6 w-6" />
                         <span className="text-xs text-center">{tool.name}</span>
@@ -725,13 +735,17 @@ export function Desk() {
                 {/* Tool Icons */}
                 {tools.map((tool) => {
                   const Icon = tool.icon;
+                  const isDisabled = tool.id === 'chat';
                   return (
                     <Button
                       key={tool.id}
                       onClick={() => openTool(tool)}
+                      disabled={isDisabled}
                       size="icon"
-                      className={`${tool.color} hover:opacity-80 text-white`}
-                      title={tool.name}
+                      className={`${tool.color} hover:opacity-80 text-white ${
+                        isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
+                      title={isDisabled ? 'Chat com IA desabilitado' : tool.name}
                     >
                       <Icon className="h-5 w-5" />
                     </Button>

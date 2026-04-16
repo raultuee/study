@@ -43,7 +43,7 @@ export function Planos() {
 
               <div className="space-y-4 relative z-10">
                 <p className="text-white/90 leading-relaxed">
-                  Os planos <span className="font-semibold text-blue-200">premium</span> do Study estão disponíveis por <span className="font-bold text-blue-300">solicitação</span>.
+                  Os planos <span className="font-semibold text-blue-200">premium</span> do Study estão disponíveis por <span className="font-bold text-blue-300">solicitação</span>. Significa que terá o acesso antecipado caso a plataforma continue crescendo.
                 </p>
 
                 <div className="bg-blue-800/50 rounded-lg p-4 border border-blue-500/30">
@@ -154,15 +154,15 @@ export function Planos() {
                       <h3 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
                         Plano +++
                       </h3>
-                      <p className="text-gray-600">Para quem quer o máximo desempenho</p>
+                      <p className="text-white">Para quem quer o máximo desempenho</p>
                     </div>
                     
                     <div className="mb-8">
                       <div className="flex items-end gap-2">
                         <span className="text-5xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">R$ 79</span>
-                        <span className="text-gray-600 mb-2">/mês</span>
+                        <span className="text-white mb-2">/mês</span>
                       </div>
-                      <p className="text-sm text-gray-500 mt-1">Cobrado anualmente • Economize 20%</p>
+                      <p className="text-sm text-white mt-1">Cobrado anualmente • Economize 20%</p>
                     </div>
 
                     <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 mb-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105">

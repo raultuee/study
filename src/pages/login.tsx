@@ -2,28 +2,29 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Eye, EyeOff, AlertCircle, X } from 'lucide-react';
-import { useAuth } from '@/auth/AuthContext';
+import { AlertCircle, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showBetaAlert, setShowBetaAlert] = useState(true);
-  const { login } = useAuth();
-  const navigate = useNavigate();
+// import { useAuth } from '@/auth/AuthContext';
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const success = await login(email, password);
-    if (success) {
-      toast.success('Login realizado com sucesso!');
-      navigate('/dashboard');
-    } else {
-      toast.error('Usuário ou senha incorretos.');
-    }
-  };
+export function Login() {
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [showPassword, setShowPassword] = useState(false);
+  // const { login } = useAuth();
+  const navigate = useNavigate();
+  const [showBetaAlert, setShowBetaAlert] = useState(true);
+
+  // const handleLogin = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   const success = await login(email, password);
+  //   if (success) {
+  //     toast.success('Login realizado com sucesso!');
+  //     navigate('/dashboard');
+  //   } else {
+  //     toast.error('Usuário ou senha incorretos.');
+  //   }
+  // };
 
   const handleVisitorLogin = async () => {
     toast.success('Bem-vindo ao Study! 👋');
@@ -101,51 +102,9 @@ export function Login() {
             </div>
           </div>
 
-          <form onSubmit={handleLogin}>
+          <form>
             <div className="flex items-center justify-center">
               <div className="w-full max-w-md space-y-8">
-                <div>
-                  <input
-                    required
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email"
-                    className="w-full bg-transparent text-white text-lg py-3 px-2 border-b-2 border-white/40 focus:border-white focus:outline-none transition placeholder:text-white/50"
-                  />
-                </div>
-
-                <div className="relative">
-                  <input
-                    required
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Senha"
-                    className="w-full bg-transparent text-white text-lg py-3 px-2 pr-10 border-b-2 border-white/40 focus:border-white focus:outline-none transition placeholder:text-white/50"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition"
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-
-                <div>
-                  <Button
-                    type="submit"
-                    className="w-full bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white py-6 rounded-lg font-semibold border border-white/30 transition-all mb-5"
-                  >
-                    Entrar
-                  </Button>
-                  
-                  <a href="/cadastro">
-                    <Button className="w-full text-white rounded-lg font-semibold transition-all mb-5" variant="link" type="button">
-                      Cadastrar-se
-                    </Button>
-                  </a>
                   <Button
                     type="button"
                     onClick={handleVisitorLogin}
@@ -153,8 +112,15 @@ export function Login() {
                   >
                     Visita Rápida
                   </Button>
+                  <Button
+                    variant={"ghost"}
+                    type="button"
+                    onClick={() => navigate('/')}
+                    className="w-full py-6 text-white hover:text-white bg-white/10 border-white/20 group hover:bg-white/20 backdrop-blur-sm rounded-lg font-semibold transition-all mb-5"
+                  >
+                    Página Inicial
+                  </Button>
                 </div>
-              </div>
             </div>
           </form>
         </div>
