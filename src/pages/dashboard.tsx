@@ -9,14 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -24,6 +16,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { useAuth } from '@/auth/AuthContext';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -351,42 +351,42 @@ function TarefasContent() {
   };
 
   return (
-    <div className="w-full max-w-2xl space-y-8">
+    <div className="w-full max-w-2xl sm:max-w-3xl md:max-w-4xl space-y-4 sm:space-y-6 md:space-y-8">
       <header>
-        <h1 className="text-4xl font-bold mb-4 text-white">Minhas Tarefas</h1>
-        <p className="text-blue-200/80 mb-4">Organize suas tarefas por prioridade</p>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 md:mb-4 text-white">Minhas Tarefas</h1>
+        <p className="text-sm sm:text-base text-blue-200/80 mb-3 sm:mb-4">Organize suas tarefas por prioridade</p>
         
         {!showForm ? (
           <Button 
             onClick={() => setShowForm(true)}
-            className="bg-blue-700 hover:bg-blue-800 text-white"
+            className="bg-blue-700 hover:bg-blue-800 text-white w-full sm:w-auto text-sm sm:text-base h-9 sm:h-10"
           >
-            <Plus className="h-5 w-5 mr-2" />
+            <Plus className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
             Adicionar Nova Tarefa
           </Button>
         ) : (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-4 p-6 bg-blue-900/60 rounded-xl border border-blue-700/50"
+            className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-6 bg-blue-900/60 rounded-lg sm:rounded-xl border border-blue-700/50"
           >
             <div>
-              <label className="block text-white mb-2 text-sm font-medium">Título da Tarefa</label>
+              <label className="block text-white mb-1 sm:mb-2 text-xs sm:text-sm font-medium">Título da Tarefa</label>
               <Input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ex: Estudar para prova, Fazer trabalho..."
-                className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70 h-12 text-lg"
+                placeholder="Ex: Estudar para prova..."
+                className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70 h-9 sm:h-10 text-sm sm:text-base"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-2 sm:gap-4">
               <div>
-                <label className="block text-white mb-2 text-sm font-medium">Prioridade</label>
+                <label className="block text-white mb-1 sm:mb-2 text-xs sm:text-sm font-medium">Prioridade</label>
                 <Select value={selectedPriority} onValueChange={(value) => setSelectedPriority(value as 'baixa' | 'média' | 'alta')}>
-                  <SelectTrigger className="bg-blue-800 border-blue-700/50 text-white">
-                    <SelectValue placeholder="Selecione a prioridade" />
+                  <SelectTrigger className="bg-blue-800 border-blue-700/50 text-white h-9 sm:h-10 text-xs sm:text-sm">
+                    <SelectValue placeholder="Selecione" />
                   </SelectTrigger>
                   <SelectContent className="bg-blue-900 border-blue-700/50">
                     <SelectItem value="baixa" className="text-white hover:bg-green-600/20 focus:bg-green-600/20">
@@ -403,24 +403,24 @@ function TarefasContent() {
               </div>
 
               <div>
-                <label className="block text-white mb-2 text-sm font-medium">Data (opcional)</label>
+                <label className="block text-white mb-1 sm:mb-2 text-xs sm:text-sm font-medium">Data (opcional)</label>
                 <Input
                   type="date"
                   value={selectedDueDate}
                   onChange={(e) => setSelectedDueDate(e.target.value)}
-                  className="bg-blue-800 border-blue-700/50 text-white"
+                  className="bg-blue-800 border-blue-700/50 text-white h-9 sm:h-10 text-xs sm:text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-white mb-2 text-sm font-medium">Descrição (opcional)</label>
+              <label className="block text-white mb-1 sm:mb-2 text-xs sm:text-sm font-medium">Descrição (opcional)</label>
               <Input
                 type="text"
                 value={selectedDescription}
                 onChange={(e) => setSelectedDescription(e.target.value)}
-                placeholder="Adicione detalhes sobre a tarefa..."
-                className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70"
+                placeholder="Adicione detalhes..."
+                className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70 h-9 sm:h-10 text-xs sm:text-sm"
               />
             </div>
 
@@ -429,15 +429,15 @@ function TarefasContent() {
                 type="button"
                 onClick={() => setShowForm(false)}
                 variant="ghost"
-                className="text-white hover:bg-blue-800"
+                className="text-white hover:bg-blue-800 text-xs sm:text-sm h-8 sm:h-9"
               >
                 Cancelar
               </Button>
               <Button
                 onClick={handleAddTodo}
-                className="bg-green-600 hover:bg-green-700 text-white"
+                className="bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm h-8 sm:h-9"
               >
-                <Plus className="h-4 w-4 mr-2" />
+                <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 Adicionar
               </Button>
             </div>
@@ -445,12 +445,12 @@ function TarefasContent() {
         )}
       </header>
 
-      <main className="space-y-3">
+      <main className="space-y-2 sm:space-y-3">
         {sortedTodos.length === 0 ? (
-          <div className="text-center py-12">
-            <CheckCircle className="h-16 w-16 mx-auto mb-4 text-blue-400/50" />
-            <p className="text-blue-300/80 text-lg">Nenhuma tarefa adicionada ainda.</p>
-            <p className="text-blue-400/60 text-sm mt-2">Clique em "Adicionar Nova Tarefa" para começar!</p>
+          <div className="text-center py-8 sm:py-12">
+            <CheckCircle className="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-2 sm:mb-4 text-blue-400/50" />
+            <p className="text-blue-300/80 text-base sm:text-lg">Nenhuma tarefa adicionada ainda.</p>
+            <p className="text-blue-400/60 text-xs sm:text-sm mt-1 sm:mt-2">Clique em "Adicionar Nova Tarefa" para começar!</p>
           </div>
         ) : (
           <AnimatePresence>
@@ -463,50 +463,50 @@ function TarefasContent() {
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.3 }}
               >
-                <Card className={`border-2 flex flex-col p-4 transition-all duration-300 ${getPriorityColor(todo.priority)} ${todo.completed ? 'opacity-50 bg-blue-800/40' : 'bg-blue-900/80'}`}>
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-grow">
-                      <div className="flex items-center gap-3 mb-2">
+                <Card className={`border-2 flex flex-col p-2 sm:p-3 md:p-4 transition-all duration-300 ${getPriorityColor(todo.priority)} ${todo.completed ? 'opacity-50 bg-blue-800/40' : 'bg-blue-900/80'}`}>
+                  <div className="flex items-start justify-between gap-2 sm:gap-4">
+                    <div className="flex-grow min-w-0">
+                      <div className="flex items-start sm:items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
                         <Button 
                           variant="ghost" 
                           size="icon" 
                           onClick={() => handleToggleTodo(todo.id)} 
-                          className="hover:bg-green-500/20 text-green-400 flex-shrink-0"
+                          className="hover:bg-green-500/20 text-green-400 flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10"
                         >
-                          <Check className="h-5 w-5" />
+                          <Check className="h-4 w-4 sm:h-5 sm:w-5" />
                         </Button>
-                        <span className={`flex-grow text-white text-lg ${todo.completed ? 'line-through text-blue-300/80' : ''}`}>
+                        <span className={`flex-grow text-white text-sm sm:text-base break-words ${todo.completed ? 'line-through text-blue-300/80' : ''}`}>
                           {todo.text}
                         </span>
                       </div>
 
-                      <div className="ml-12 space-y-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <Badge className={getPriorityBadgeColor(todo.priority)}>
+                      <div className="ml-8 sm:ml-12 space-y-1 sm:space-y-2">
+                        <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                          <Badge className={`${getPriorityBadgeColor(todo.priority)} text-xs`}>
                             {todo.priority === 'alta' && '🔴 Alta'}
                             {todo.priority === 'média' && '🟡 Média'}
                             {todo.priority === 'baixa' && '🟢 Baixa'}
                           </Badge>
                           {todo.dueDate && (
-                            <Badge className="bg-blue-700/50 text-blue-200 border border-blue-600/50">
+                            <Badge className="bg-blue-700/50 text-blue-200 border border-blue-600/50 text-xs">
                               📅 {formatDate(todo.dueDate)}
                             </Badge>
                           )}
                         </div>
                         
                         {todo.description && (
-                          <p className="text-sm text-blue-200/70">{todo.description}</p>
+                          <p className="text-xs sm:text-sm text-blue-200/70 break-words">{todo.description}</p>
                         )}
                       </div>
                     </div>
-
+                    
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       onClick={() => handleDeleteTodo(todo.id)} 
-                      className="hover:bg-red-500/20 text-red-400 flex-shrink-0"
+                      className="hover:bg-red-500/20 text-red-400 flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10"
                     >
-                      <Trash2 className="h-5 w-5" />
+                      <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
                   </div>
                 </Card>
@@ -517,8 +517,8 @@ function TarefasContent() {
       </main>
 
       {sortedTodos.length > 0 && (
-        <div className="pt-4 border-t border-blue-700/30">
-          <p className="text-blue-200/80 text-sm">
+        <div className="pt-3 sm:pt-4 border-t border-blue-700/30">
+          <p className="text-blue-200/80 text-xs sm:text-sm">
             {sortedTodos.filter(t => !t.completed).length} tarefa(s) pendente(s)
           </p>
         </div>
@@ -601,18 +601,18 @@ function ConquistasContent({ currentView }: { currentView: string }) {
   ];
 
   return (
-    <div className="w-full max-w-4xl space-y-8">
+    <div className="w-full max-w-4xl space-y-4 sm:space-y-6 md:space-y-8">
       <header>
-        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">Conquistas</h1>
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <Progress value={progressPercentage} className="h-3 bg-white/20 flex-1" />
-          <span className="text-lg font-semibold text-white whitespace-nowrap">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 md:mb-4 text-white">Conquistas</h1>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+          <Progress value={progressPercentage} className="h-2 sm:h-3 bg-white/20 flex-1" />
+          <span className="text-sm sm:text-base md:text-lg font-semibold text-white whitespace-nowrap">
             {unlockedCount}/{totalAchievements} ({Math.round(progressPercentage)}%)
           </span>
         </div>
       </header>
       
-      <main className="space-y-3">
+      <main className="space-y-2 sm:space-y-3">
         <AnimatePresence>
           {achievementsData.map((achievement, index) => {
             const iconObj = icons.find(i => i.id === achievement.id);
@@ -632,9 +632,9 @@ function ConquistasContent({ currentView }: { currentView: string }) {
                       : 'bg-blue-900/40 border-blue-700/30 opacity-60 hover:opacity-75'
                   }`}
                 >
-                  <div className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className={`text-4xl transition-transform ${
+                  <div className="flex items-center justify-between p-2 sm:p-3 md:p-4">
+                    <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-1 min-w-0">
+                      <div className={`text-2xl sm:text-3xl md:text-4xl transition-transform flex-shrink-0 ${
                         achievement.unlocked 
                           ? 'group-hover:scale-110 group-hover:animate-bounce' 
                           : 'grayscale opacity-50'
@@ -642,14 +642,14 @@ function ConquistasContent({ currentView }: { currentView: string }) {
                         {iconObj?.icon}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className={`text-lg font-semibold transition-colors truncate ${
+                        <h3 className={`text-sm sm:text-base md:text-lg font-semibold transition-colors truncate ${
                           achievement.unlocked 
                             ? 'text-white group-hover:text-blue-200' 
                             : 'text-white/60'
                         }`}>
                           {achievement.title}
                         </h3>
-                        <p className={`text-sm transition-colors truncate ${
+                        <p className={`text-xs sm:text-sm transition-colors truncate ${
                           achievement.unlocked 
                             ? 'text-blue-200' 
                             : 'text-blue-300/50'
@@ -658,11 +658,11 @@ function ConquistasContent({ currentView }: { currentView: string }) {
                         </p>
                       </div>
                     </div>
-                    <div className="flex-shrink-0 ml-4">
+                    <div className="flex-shrink-0 ml-2 sm:ml-4">
                       {achievement.unlocked ? (
-                        <Check className="w-6 h-6 text-green-400 group-hover:scale-125 transition-transform" />
+                        <Check className="w-5 h-5 sm:w-6 sm:h-6 text-green-400 group-hover:scale-125 transition-transform" />
                       ) : (
-                        <Lock className="w-6 h-6 text-gray-500" />
+                        <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" />
                       )}
                     </div>
                   </div>
@@ -770,17 +770,17 @@ function AgendaContent() {
     : getSortedAppointments();
 
   return (
-    <div className="w-full max-w-7xl space-y-6">
-      <header className="flex items-center justify-between">
+    <div className="w-full max-w-7xl space-y-4 sm:space-y-6">
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-4xl font-bold mb-2">Agenda Pessoal</h1>
-          <p className="text-blue-200/80">Organize seus compromissos e eventos</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">Agenda Pessoal</h1>
+          <p className="text-sm sm:text-base text-blue-200/80">Organized seus compromissos</p>
         </div>
         <Button
           onClick={() => setShowForm(!showForm)}
-          className="bg-blue-700 hover:bg-blue-800 text-white"
+          className="bg-blue-700 hover:bg-blue-800 text-white w-full sm:w-auto h-9 sm:h-10 text-sm sm:text-base"
         >
-          <Plus className="h-5 w-5 mr-2" />
+          <Plus className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
           Novo Compromisso
         </Button>
       </header>
@@ -791,49 +791,49 @@ function AgendaContent() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
         >
-          <Card className="border-blue-700/50 bg-blue-900/80 p-6">
-            <form onSubmit={handleAddAppointment} className="space-y-4">
+          <Card className="border-blue-700/50 bg-blue-900/80 p-3 sm:p-4 md:p-6">
+            <form onSubmit={handleAddAppointment} className="space-y-3 sm:space-y-4">
               <div>
-                <label className="block text-white mb-2 text-sm font-medium">Título</label>
+                <label className="block text-white mb-1 sm:mb-2 text-xs sm:text-sm font-medium">Título</label>
                 <Input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Ex: Reunião, Aula, Compromisso..."
-                  className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70"
+                  placeholder="Ex: Reunião..."
+                  className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70 h-9 sm:h-10 text-xs sm:text-sm"
                   required
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
                 <div>
-                  <label className="block text-white mb-2 text-sm font-medium">Data</label>
+                  <label className="block text-white mb-1 sm:mb-2 text-xs sm:text-sm font-medium">Data</label>
                   <Input
                     type="date"
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="bg-blue-800 border-blue-700/50 text-white"
+                    className="bg-blue-800 border-blue-700/50 text-white h-9 sm:h-10 text-xs sm:text-sm"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-white mb-2 text-sm font-medium">Horário</label>
+                  <label className="block text-white mb-1 sm:mb-2 text-xs sm:text-sm font-medium">Horário</label>
                   <Input
                     type="time"
                     value={formData.time}
                     onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                    className="bg-blue-800 border-blue-700/50 text-white"
+                    className="bg-blue-800 border-blue-700/50 text-white h-9 sm:h-10 text-xs sm:text-sm"
                     required
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-white mb-2 text-sm font-medium">Descrição (opcional)</label>
+                <label className="block text-white mb-1 sm:mb-2 text-xs sm:text-sm font-medium">Descrição (opcional)</label>
                 <Input
                   type="text"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Adicione detalhes sobre o compromisso..."
-                  className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70"
+                  placeholder="Detalhes..."
+                  className="bg-blue-800 border-blue-700/50 text-white placeholder:text-blue-300/70 h-9 sm:h-10 text-xs sm:text-sm"
                 />
               </div>
               <div className="flex gap-2 justify-end">
@@ -841,11 +841,11 @@ function AgendaContent() {
                   type="button"
                   onClick={() => setShowForm(false)}
                   variant="ghost"
-                  className="text-white hover:bg-blue-800"
+                  className="text-white hover:bg-blue-800 text-xs sm:text-sm h-8 sm:h-9"
                 >
                   Cancelar
                 </Button>
-                <Button type="submit" className="bg-green-600 hover:bg-green-700 text-white">
+                <Button type="submit" className="bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm h-8 sm:h-9">
                   Salvar
                 </Button>
               </div>
@@ -854,33 +854,33 @@ function AgendaContent() {
         </motion.div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
         {/* Calendário */}
         <div className="lg:col-span-1">
-          <Card className="border-blue-700/50 bg-blue-900/60 p-6">
-            <div className="flex items-center justify-between mb-4">
+          <Card className="border-blue-700/50 bg-blue-900/60 p-3 sm:p-4 md:p-6">
+            <div className="flex items-center justify-between mb-3 md:mb-4">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={previousMonth}
-                className="text-white hover:bg-blue-800"
+                className="text-white hover:bg-blue-800 h-8 w-8 sm:h-9 sm:w-9"
               >
-                <ChevronLeft className="h-5 w-5" />
+                <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
-              <h2 className="text-white font-semibold text-lg capitalize">{monthName}</h2>
+              <h2 className="text-white font-semibold text-sm sm:text-base md:text-lg capitalize">{monthName}</h2>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={nextMonth}
-                className="text-white hover:bg-blue-800"
+                className="text-white hover:bg-blue-800 h-8 w-8 sm:h-9 sm:w-9"
               >
-                <ChevronRight className="h-5 w-5" />
+                <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </div>
 
             <div className="grid grid-cols-7 gap-1 mb-2">
               {weekDays.map((day) => (
-                <div key={day} className="text-center text-blue-200/70 text-xs font-medium py-2">
+                <div key={day} className="text-center text-blue-200/70 text-xs font-medium py-1 sm:py-2">
                   {day}
                 </div>
               ))}
@@ -903,7 +903,7 @@ function AgendaContent() {
                     key={day}
                     onClick={() => handleDayClick(day)}
                     className={`
-                      aspect-square flex items-center justify-center rounded-lg text-sm font-medium transition-all relative
+                      aspect-square flex items-center justify-center rounded text-xs sm:text-sm font-medium transition-all relative
                       ${isSelected ? 'bg-blue-600 text-white' : todayDate ? 'bg-blue-700/50 text-white' : 'text-blue-100 hover:bg-blue-800/50'}
                     `}
                   >
@@ -917,13 +917,13 @@ function AgendaContent() {
             </div>
 
             {selectedDate && (
-              <div className="mt-4">
+              <div className="mt-2 sm:mt-4">
                 <Button
                   variant="ghost"
                   onClick={() => setSelectedDate(null)}
-                  className="w-full text-white hover:bg-blue-800 text-sm"
+                  className="w-full text-white hover:bg-blue-800 text-xs sm:text-sm h-8 sm:h-9"
                 >
-                  Mostrar todos os compromissos
+                  Mostrar todos
                 </Button>
               </div>
             )}
@@ -932,19 +932,19 @@ function AgendaContent() {
 
         {/* Lista de Compromissos */}
         <div className="lg:col-span-2">
-          <Card className="border-blue-700/50 bg-blue-900/60 p-6">
-            <h2 className="text-white font-semibold text-xl mb-4">
+          <Card className="border-blue-700/50 bg-blue-900/60 p-3 sm:p-4 md:p-6">
+            <h2 className="text-white font-semibold text-sm sm:text-base md:text-xl mb-3 md:mb-4">
               {selectedDate ? `Compromissos de ${formatDate(selectedDate)}` : 'Próximos Compromissos'}
             </h2>
             
-            <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+            <div className="space-y-2 sm:space-y-3 max-h-[600px] overflow-y-auto pr-2">
               {filteredAppointments.length === 0 ? (
-                <div className="text-center py-12">
-                  <Calendar className="h-16 w-16 mx-auto mb-4 text-blue-400/50" />
-                  <p className="text-blue-300/80 text-lg">
+                <div className="text-center py-6 sm:py-12">
+                  <Calendar className="h-10 w-10 sm:h-16 sm:w-16 mx-auto mb-2 sm:mb-4 text-blue-400/50" />
+                  <p className="text-blue-300/80 text-sm sm:text-lg">
                     {selectedDate ? 'Nenhum compromisso nesta data.' : 'Nenhum compromisso agendado.'}
                   </p>
-                  <p className="text-blue-400/60 text-sm mt-2">
+                  <p className="text-blue-400/60 text-xs sm:text-sm mt-1 sm:mt-2">
                     Adicione um novo compromisso para começar.
                   </p>
                 </div>
@@ -961,29 +961,29 @@ function AgendaContent() {
                         exit={{ opacity: 0, x: 20 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <Card className={`p-4 transition-all duration-300 ${upcoming ? 'bg-blue-800/60 border-blue-600' : 'bg-blue-900/40 opacity-60'}`}>
-                          <div className="flex items-start justify-between">
-                            <div className="flex-grow space-y-2">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <h3 className="text-white font-semibold text-base">{appointment.title}</h3>
+                        <Card className={`p-2 sm:p-3 md:p-4 transition-all duration-300 ${upcoming ? 'bg-blue-800/60 border-blue-600' : 'bg-blue-900/40 opacity-60'}`}>
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-grow space-y-1 sm:space-y-2 min-w-0">
+                              <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                                <h3 className="text-white font-semibold text-xs sm:text-sm md:text-base break-words">{appointment.title}</h3>
                                 {upcoming && (
-                                  <Badge className="bg-green-600 hover:bg-green-800 text-white text-xs">Próximo</Badge>
+                                  <Badge className="bg-green-600 hover:bg-green-800 text-white text-[10px] sm:text-xs">Próximo</Badge>
                                 )}
                               </div>
                               
-                              <div className="flex items-center gap-4 text-blue-200/80 text-sm">
+                              <div className="flex items-center gap-2 sm:gap-4 text-blue-200/80 text-[10px] sm:text-xs md:text-sm flex-wrap">
                                 <div className="flex items-center gap-1">
-                                  <Calendar className="h-4 w-4" />
-                                  <span className="capitalize">{formatDate(appointment.date)}</span>
+                                  <Calendar className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                                  <span className="capitalize break-words">{formatDate(appointment.date)}</span>
                                 </div>
                                 <div className="flex items-center gap-1">
-                                  <Clock className="h-4 w-4" />
+                                  <Clock className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                                   <span>{appointment.time}</span>
                                 </div>
                               </div>
                               
                               {appointment.description && (
-                                <p className="text-blue-200/70 text-sm mt-2">{appointment.description}</p>
+                                <p className="text-blue-200/70 text-[10px] sm:text-xs md:text-sm mt-1 break-words">{appointment.description}</p>
                               )}
                             </div>
                             
@@ -991,9 +991,9 @@ function AgendaContent() {
                               variant="ghost"
                               size="icon"
                               onClick={() => handleDeleteAppointment(appointment.id)}
-                              className="hover:bg-red-500/20 text-red-400 flex-shrink-0 ml-2"
+                              className="hover:bg-red-500/20 text-red-400 flex-shrink-0 ml-1 h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
                             >
-                              <Trash2 className="h-4 w-4" />
+                              <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />
                             </Button>
                           </div>
                         </Card>
@@ -1023,34 +1023,34 @@ const userData: UserProfileData = {
 // Componente de Perfil
 function PerfilContent() {
   return (
-    <div className="w-full max-w-4xl">
+    <div className="w-full max-w-2xl sm:max-w-3xl md:max-w-4xl">
       <div className="relative">
-        <div className="h-48 bg-blue-800 rounded-t-xl" />
-        <div className="absolute top-28 left-8">
-          <Avatar className="h-32 w-32 border-8 border-blue-900">
+        <div className="h-32 sm:h-40 md:h-48 bg-blue-800 rounded-t-lg sm:rounded-t-xl" />
+        <div className="absolute top-16 sm:top-24 md:top-28 left-3 sm:left-6 md:left-8">
+          <Avatar className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 border-4 sm:border-6 md:border-8 border-blue-900">
             <AvatarImage src={userData.avatarUrl} alt={userData.name} />
             <AvatarFallback>UT</AvatarFallback>
           </Avatar>
         </div>
-        <div className="bg-blue-900 p-8 pt-20 rounded-b-xl text-white">
-          <div className="flex justify-end -mt-8 mb-4 space-x-2">
-            <Badge className="bg-gray-900 text-white border-gray-700 hover:bg-gray-800">{userData.plans[0]}</Badge>
-            <Badge variant="secondary" className="bg-gray-300 text-gray-800 hover:bg-gray-200">{userData.plans[1]}</Badge>
+        <div className="bg-blue-900 p-3 sm:p-4 md:p-8 pt-16 sm:pt-16 md:pt-20 rounded-b-lg sm:rounded-b-xl text-white">
+          <div className="flex justify-end -mt-6 sm:-mt-8 md:-mt-8 mb-3 md:mb-4 space-x-2">
+            <Badge className="bg-gray-900 text-white border-gray-700 hover:bg-gray-800 text-xs sm:text-sm">{userData.plans[0]}</Badge>
+            <Badge variant="secondary" className="bg-gray-300 text-gray-800 hover:bg-gray-200 text-xs sm:text-sm">{userData.plans[1]}</Badge>
           </div>
-          <h1 className="text-3xl font-bold">{userData.name}</h1>
-          <p className="text-blue-200/90 mt-2 text-base">{userData.bio}</p>
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold">Fóruns</h2>
-            <div className="mt-2">
-              <Badge className="bg-cyan-500 text-white text-md py-1 px-4 hover:bg-cyan-600 cursor-pointer">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">{userData.name}</h1>
+          <p className="text-blue-200/90 mt-1 sm:mt-2 md:mt-2 text-xs sm:text-sm md:text-base break-words">{userData.bio}</p>
+          <div className="mt-4 sm:mt-6 md:mt-8">
+            <h2 className="text-lg sm:text-xl md:text-xl font-semibold">Fóruns</h2>
+            <div className="mt-1 sm:mt-2">
+              <Badge className="bg-cyan-500 text-white text-xs sm:text-sm md:text-base py-1 px-2 sm:px-3 md:px-4 hover:bg-cyan-600 cursor-pointer">
                 {userData.forums[0].name}
-                <Check className="h-4 w-4 ml-2" />
+                <Check className="h-3 w-3 sm:h-4 sm:w-4 ml-1 sm:ml-2" />
               </Badge>
             </div>
           </div>
-          <div className="mt-6">
-            <h2 className="text-xl font-semibold">Portifólio</h2>
-            <a href={`https://${userData.portfolioUrl}`} target="_blank" rel="noopener noreferrer" className="text-cyan-400 mt-2 block hover:underline">
+          <div className="mt-4 sm:mt-6 md:mt-6">
+            <h2 className="text-lg sm:text-xl md:text-xl font-semibold">Portifólio</h2>
+            <a href={`https://${userData.portfolioUrl}`} target="_blank" rel="noopener noreferrer" className="text-cyan-400 mt-1 sm:mt-2 block hover:underline text-xs sm:text-sm md:text-base break-all">
               {userData.portfolioUrl}
             </a>
           </div>
@@ -1063,7 +1063,7 @@ function PerfilContent() {
 // Componente de Fórum
 function ForumContent() {
   return (
-    <div className="flex items-center justify-center w-full">
+    <div className="flex items-center justify-center w-full px-3 sm:px-4">
       <Empty>
         <EmptyHeader>
           <EmptyMedia>
@@ -1082,23 +1082,23 @@ function ForumContent() {
               </Avatar>
             </div>
           </EmptyMedia>
-          <EmptyTitle className="text-white">Nenhuma turma encontrada.</EmptyTitle>
-          <EmptyDescription className="text-white">Entre, ou convide colaboradores para seu fórum.</EmptyDescription>
+          <EmptyTitle className="text-white text-lg sm:text-xl md:text-2xl">Nenhuma turma encontrada.</EmptyTitle>
+          <EmptyDescription className="text-white text-sm sm:text-base">Entre, ou convide colaboradores para seu fórum.</EmptyDescription>
         </EmptyHeader>
-        <EmptyContent className="flex">
-          <Button onClick={() => toast.error("Função ainda não disponível, há poucos usuários na Study.")} className="bg-blue-700 text-white hover:bg-blue-800">
-            <PlusIcon />
+        <EmptyContent className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full">
+          <Button onClick={() => toast.error("Função ainda não disponível, há poucos usuários na Study.")} className="bg-blue-700 text-white hover:bg-blue-800 text-xs sm:text-sm h-8 sm:h-9 w-full sm:w-auto">
+            <PlusIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
             Convidar
           </Button>
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-2 w-full sm:w-auto">
             <input
               required
               type="text"
-              placeholder="Já possui um convite? Use aqui."
-              className="w-full bg-transparent text-white text-sm py-3 px-2 border-b-2 border-white/40 focus:border-white focus:outline-none transition placeholder:text-white/50"
+              placeholder="Já possui um convite?"
+              className="w-full bg-transparent text-white text-xs sm:text-sm py-2 sm:py-3 px-2 border-b-2 border-white/40 focus:border-white focus:outline-none transition placeholder:text-white/50"
             />
-            <Button className="bg-white">
-              <Check color="blue"/>
+            <Button className="bg-white h-8 sm:h-9 w-8 sm:w-9 lg:h-10 lg:w-10 flex-shrink-0">
+              <Check color="blue" className="h-4 w-4 sm:h-5 sm:w-5"/>
             </Button>
           </div>
         </EmptyContent>
@@ -1185,15 +1185,15 @@ function QuizContent() {
   // Seleção de Ano
   if (stage === 'select-year') {
     return (
-      <div className="w-full max-w-4xl space-y-8">
+      <div className="w-full max-w-4xl space-y-4 sm:space-y-6 md:space-y-8">
         <header>
-          <h1 className="text-4xl font-bold mb-2 text-white">Quizzes</h1>
-          <p className="text-blue-200/80">Teste seus conhecimentos e melhore seu aprendizado</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2 text-white">Quizzes</h1>
+          <p className="text-sm sm:text-base text-blue-200/80">Teste seus conhecimentos</p>
         </header>
 
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">Selecione seu ano</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-3 sm:space-y-4">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-white">Selecione seu ano</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             {years.map((year) => (
               <motion.div
                 key={year}
@@ -1202,11 +1202,11 @@ function QuizContent() {
               >
                 <Card
                   onClick={() => handleYearSelect(year)}
-                  className="border-blue-600/50 bg-blue-800/60 hover:bg-blue-700/80 hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer transition-all duration-300 p-8"
+                  className="border-blue-600/50 bg-blue-800/60 hover:bg-blue-700/80 hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer transition-all duration-300 p-4 sm:p-6 md:p-8"
                 >
-                  <div className="flex flex-col items-center justify-center h-32 gap-4">
-                    <div className="text-5xl">📚</div>
-                    <h3 className="text-white font-semibold text-xl text-center">{year}</h3>
+                  <div className="flex flex-col items-center justify-center h-24 sm:h-28 md:h-32 gap-2 sm:gap-3 md:gap-4">
+                    <div className="text-3xl sm:text-4xl md:text-5xl">📚</div>
+                    <h3 className="text-white font-semibold text-base sm:text-lg md:text-xl text-center">{year}</h3>
                   </div>
                 </Card>
               </motion.div>
@@ -1215,9 +1215,9 @@ function QuizContent() {
         </div>
 
         {quizHistory.length > 0 && (
-          <div className="space-y-4 mt-12">
-            <h2 className="text-2xl font-semibold text-white">Histórico de Quizzes</h2>
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+          <div className="space-y-3 sm:space-y-4 mt-6 sm:mt-8 md:mt-12">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-white">Histórico de Quizzes</h2>
+            <div className="space-y-2 sm:space-y-3 max-h-64 overflow-y-auto">
               <AnimatePresence>
                 {quizHistory.map((session, index) => (
                   <motion.div
@@ -1226,14 +1226,14 @@ function QuizContent() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
                   >
-                    <Card className="p-4 bg-blue-900/40 border-blue-700/30">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-grow">
-                          <h3 className="text-white font-semibold">{session.subject}</h3>
-                          <p className="text-blue-200/70 text-sm">{session.year}</p>
+                    <Card className="p-2 sm:p-3 md:p-4 bg-blue-900/40 border-blue-700/30">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex-grow min-w-0">
+                          <h3 className="text-white font-semibold text-sm sm:text-base">{session.subject}</h3>
+                          <p className="text-blue-200/70 text-xs sm:text-sm">{session.year}</p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-white font-bold text-lg">{session.score}/{session.totalQuestions}</p>
+                        <div className="text-right flex-shrink-0">
+                          <p className="text-white font-bold text-sm sm:text-base md:text-lg">{session.score}/{session.totalQuestions}</p>
                           <p className="text-blue-200/70 text-xs">{session.completedAt}</p>
                         </div>
                       </div>
@@ -1251,22 +1251,22 @@ function QuizContent() {
   // Seleção de Matéria
   if (stage === 'select-subject') {
     return (
-      <div className="w-full max-w-4xl space-y-8">
-        <header className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold mb-2 text-white">Selecione a Matéria</h1>
-            <p className="text-blue-200/80">{selectedYear}</p>
+      <div className="w-full max-w-4xl space-y-4 sm:space-y-6 md:space-y-8">
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+          <div className="min-w-0">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2 text-white">Selecione a Matéria</h1>
+            <p className="text-sm sm:text-base text-blue-200/80">{selectedYear}</p>
           </div>
           <Button
             onClick={handleBackToYearSelect}
             variant="ghost"
-            className="text-white hover:bg-blue-800"
+            className="text-white hover:bg-blue-800 text-xs sm:text-sm h-8 sm:h-9 w-full sm:w-auto"
           >
             ← Voltar
           </Button>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {subjects.map((subject) => (
             <motion.div
               key={subject}
@@ -1275,17 +1275,17 @@ function QuizContent() {
             >
               <Card
                 onClick={() => handleSubjectSelect(subject)}
-                className="border-blue-600/50 bg-blue-800/60 hover:bg-blue-700/80 hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer transition-all duration-300 p-8"
+                className="border-blue-600/50 bg-blue-800/60 hover:bg-blue-700/80 hover:shadow-lg hover:shadow-blue-500/30 cursor-pointer transition-all duration-300 p-4 sm:p-6 md:p-8"
               >
-                <div className="flex flex-col items-center justify-center h-40 gap-4">
-                  <div className="text-5xl">
+                <div className="flex flex-col items-center justify-center h-28 sm:h-32 md:h-40 gap-2 sm:gap-3 md:gap-4">
+                  <div className="text-3xl sm:text-4xl md:text-5xl">
                     {subject === 'Matemática' && '🔢'}
                     {subject === 'Português' && '📖'}
                     {subject === 'Geografia' && '🗺️'}
                     {subject === 'História' && '📜'}
                     {subject === 'Biologia' && '🔬'}
                   </div>
-                  <h3 className="text-white font-semibold text-xl text-center">{subject}</h3>
+                  <h3 className="text-white font-semibold text-sm sm:text-base md:text-xl text-center">{subject}</h3>
                 </div>
               </Card>
             </motion.div>
@@ -1302,23 +1302,23 @@ function QuizContent() {
     const progress = ((currentQuestionIndex + 1) / quizzes.length) * 100;
 
     return (
-      <div className="w-full max-w-2xl space-y-8">
-        <header className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-white">{selectedSubject}</h1>
-              <p className="text-blue-200/80">{selectedYear}</p>
+      <div className="w-full max-w-2xl space-y-4 sm:space-y-6 md:space-y-8">
+        <header className="space-y-2 sm:space-y-3 md:space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{selectedSubject}</h1>
+              <p className="text-xs sm:text-sm text-blue-200/80">{selectedYear}</p>
             </div>
             <Button
               onClick={handleBackToSubjectSelect}
               variant="ghost"
-              className="text-white hover:bg-blue-800"
+              className="text-white hover:bg-blue-800 text-xs sm:text-sm h-8 sm:h-9 w-full sm:w-auto"
             >
               Cancelar
             </Button>
           </div>
-          <Progress value={progress} className="h-3 bg-white/20" />
-          <p className="text-white text-sm">Questão {currentQuestionIndex + 1} de {quizzes.length}</p>
+          <Progress value={progress} className="h-2 sm:h-3 bg-white/20" />
+          <p className="text-white text-xs sm:text-sm">Questão {currentQuestionIndex + 1} de {quizzes.length}</p>
         </header>
 
         <motion.div
@@ -1326,14 +1326,14 @@ function QuizContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="space-y-6"
+          className="space-y-4 sm:space-y-6"
         >
-          <Card className="p-8 bg-blue-900/80 border-blue-700/50">
-            <h2 className="text-xl md:text-2xl font-semibold text-white mb-6">
+          <Card className="p-3 sm:p-4 md:p-8 bg-blue-900/80 border-blue-700/50">
+            <h2 className="text-base sm:text-lg md:text-2xl font-semibold text-white mb-3 sm:mb-4 md:mb-6">
               {currentQuiz.question}
             </h2>
 
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {currentQuiz.options.map((option, index) => (
                 <motion.button
                   key={index}
@@ -1341,7 +1341,7 @@ function QuizContent() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleAnswerSelect(index)}
                   disabled={selectedAnswers[currentQuestionIndex] !== undefined}
-                  className={`w-full p-4 text-left rounded-lg font-semibold transition-all duration-300 ${
+                  className={`w-full p-2 sm:p-3 md:p-4 text-left rounded-lg font-semibold text-xs sm:text-sm md:text-base transition-all duration-300 ${
                     selectedAnswers[currentQuestionIndex] === index
                       ? index === currentQuiz.correctAnswer
                         ? 'bg-green-600 text-white'
@@ -1359,9 +1359,9 @@ function QuizContent() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="p-4 rounded-lg bg-blue-800/40 border border-blue-600/50"
+              className="p-2 sm:p-3 md:p-4 rounded-lg bg-blue-800/40 border border-blue-600/50"
             >
-              <p className="text-white text-sm">
+              <p className="text-white text-xs sm:text-sm md:text-base">
                 {selectedAnswers[currentQuestionIndex] === currentQuiz.correctAnswer
                   ? '✓ Resposta correta!'
                   : '✗ Resposta incorreta. Tente novamente.'}
@@ -1380,41 +1380,41 @@ function QuizContent() {
     const resultMessage = percentage >= 80 ? 'Excelente!' : percentage >= 60 ? 'Bom trabalho!' : 'Tente novamente!';
 
     return (
-      <div className="w-full max-w-2xl space-y-8 text-center">
+      <div className="w-full max-w-2xl space-y-4 sm:space-y-6 md:space-y-8 text-center">
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="space-y-6"
+          className="space-y-3 sm:space-y-4 md:space-y-6"
         >
-          <div className="text-7xl mb-4">
+          <div className="text-4xl sm:text-5xl md:text-7xl mb-2 md:mb-4">
             {percentage >= 80 ? '🎉' : percentage >= 60 ? '👍' : '📚'}
           </div>
 
-          <h1 className="text-4xl font-bold text-white">{resultMessage}</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{resultMessage}</h1>
 
-          <Card className="p-8 bg-blue-900/80 border-blue-700/50 space-y-6">
-            <div className="space-y-2">
-              <p className="text-blue-200/80">Sua pontuação em</p>
-              <h2 className="text-3xl font-bold text-white">{selectedSubject}</h2>
-              <p className="text-blue-200/80">{selectedYear}</p>
+          <Card className="p-3 sm:p-4 md:p-8 bg-blue-900/80 border-blue-700/50 space-y-3 sm:space-y-4 md:space-y-6">
+            <div className="space-y-1 sm:space-y-2">
+              <p className="text-xs sm:text-sm md:text-base text-blue-200/80">Sua pontuação em</p>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{selectedSubject}</h2>
+              <p className="text-xs sm:text-sm md:text-base text-blue-200/80">{selectedYear}</p>
             </div>
 
-            <div className="flex items-center justify-center gap-4">
-              <div className="text-6xl font-bold text-white">{score}</div>
-              <div className="text-4xl text-blue-200/80">/</div>
-              <div className="text-4xl text-blue-200/80">{quizzes.length}</div>
+            <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4">
+              <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-white">{score}</div>
+              <div className="text-2xl sm:text-3xl md:text-4xl text-blue-200/80">/</div>
+              <div className="text-2xl sm:text-3xl md:text-4xl text-blue-200/80">{quizzes.length}</div>
             </div>
 
-            <div className="space-y-2">
-              <Progress value={percentage} className="h-3 bg-white/20" />
-              <p className="text-white font-semibold">{percentage}%</p>
+            <div className="space-y-1 sm:space-y-2">
+              <Progress value={percentage} className="h-2 sm:h-3 bg-white/20" />
+              <p className="text-white font-semibold text-sm sm:text-base md:text-lg">{percentage}%</p>
             </div>
           </Card>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2 sm:gap-3">
             <Button
               onClick={handleFinishQuiz}
-              className="w-full bg-blue-700 hover:bg-blue-800 text-white py-6 text-lg"
+              className="w-full bg-blue-700 hover:bg-blue-800 text-white py-2 sm:py-3 md:py-6 text-xs sm:text-sm md:text-lg h-8 sm:h-9 md:h-12"
             >
               Fazer outro Quiz
             </Button>
@@ -1434,8 +1434,6 @@ function QuizContent() {
 export function Dashboard() {
   const { user } = useAuth();
   const [currentView, setCurrentView] = useState<string>('home');
-  const [isEditing, setIsEditing] = useState(false);
-  const [dashboardBg, setDashboardBg] = useState("#0f172a");
   const [appointments] = useState<Appointment[]>([
     { id: 1, title: "Economia Circular", date: "2025-10-15", time: "15:00", description: "Aula sobre economia circular e sustentabilidade" },
     { id: 2, title: "Reunião de Projeto", date: "2025-10-12", time: "10:00", description: "Discussão sobre o projeto final" },
@@ -1452,11 +1450,11 @@ export function Dashboard() {
   });
 
   const getInitials = (fullName?: string | null) => {
-  if (!fullName) return 'US';
-  const parts = fullName.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return 'US';
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return (parts[0][0] + (parts[1][0] ?? '')).toUpperCase();
+    if (!fullName) return 'US';
+    const parts = fullName.trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return 'US';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + (parts[1][0] ?? '')).toUpperCase();
   };
 
   const displayName = user?.name ?? 'Usuário Teste';
@@ -1504,130 +1502,117 @@ export function Dashboard() {
         return <QuizContent />;
       default:
         return (
-          <div className="max-w-7xl mx-auto space-y-6 px-4 sm:px-6 lg:px-8">
-            <div className="space-y-1">
-              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white break-words">
+          <div className="w-full max-w-7xl mx-auto space-y-4 sm:space-y-6 px-3 sm:px-4 md:px-6 lg:px-8">
+            {/* Greeting */}
+            <div className="space-y-1 pt-2 sm:pt-0">
+              <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white break-words">
                 {getGreeting()}, estudante.
               </h1>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-auto">
+
+            {/* Grid Principal - Responsivo para Mobile */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 auto-rows-auto">
               
-                <Card className="col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2 row-span-2 flex flex-col w-full justify-center p-4 md:p-5 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden min-h-[200px]">
-                  <a href="/desk" className="block w-full h-full">
-                    <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-2">
-                      <CardTitle className="text-white text-lg md:text-xl lg:text-2xl mb-1 transform group-hover:-translate-y-4 transition-transform duration-300">
-                        Iniciar Estudos
-                      </CardTitle>
-                      <p className="text-white/90 text-xs md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-300 delay-200 max-w-xs leading-relaxed">
-                        Inicie sua rotina de estudos com várias ferramentas disponíveis.
-                      </p>
-                    </CardHeader>
-                  </a>
-                </Card>
-                <Card onClick={() => setCurrentView('tarefas')} className="col-span-1 sm:col-span-2 md:col-span-1 h-32 md:h-36 flex flex-col justify-center p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-300">
-                      Tarefas
+              {/* Card Grande - Iniciar Estudos */}
+              <Card className="col-span-2 sm:col-span-2 md:col-span-2 lg:col-span-2 row-span-1 sm:row-span-2 flex flex-col w-full justify-center p-2 sm:p-3 md:p-4 lg:p-5 rounded-lg sm:rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden min-h-[120px] sm:min-h-[200px] md:min-h-[240px]">
+                <a href="/desk" className="block w-full h-full">
+                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1 sm:p-2">
+                    <CardTitle className="text-white text-base sm:text-lg md:text-xl lg:text-2xl mb-0 sm:mb-1 transform group-hover:-translate-y-2 sm:group-hover:-translate-y-4 transition-transform duration-300">
+                      Iniciar Estudos
                     </CardTitle>
-                    <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-300 delay-200 max-w-xs leading-relaxed">
-                      Aliste suas tarefas pendentes.
+                    <p className="text-white/90 text-xs sm:text-xs md:text-sm opacity-0 group-hover:opacity-100 transform translate-y-4 sm:translate-y-8 group-hover:translate-y-0 transition-all duration-300 delay-200 max-w-xs leading-relaxed">
+                      Inicie sua rotina de estudos.
                     </p>
                   </CardHeader>
-                </Card>
-
-                <Card onClick={() => setCurrentView('conquistas')} className="col-span-1 h-32 md:h-36 flex flex-col justify-center p-2 md:p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-300">
-                      Conquistas
-                    </CardTitle>
-                    <p className="text-white/90 text-xs md:text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-300 delay-200 max-w-xs leading-relaxed">
-                      Seu progresso na plataforma
-                    </p>
-                  </CardHeader>
-                </Card>
-
-                <Card onClick={() => setCurrentView('agenda')} className="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-2 h-32 md:h-36 flex flex-col justify-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-300">
-                      Agenda pessoal
-                    </CardTitle>
-                    <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-300 delay-200 max-w-xs md:max-w-md leading-relaxed">
-                      {nextAppointment ? `${nextAppointment.title} - ${nextAppointment.time}` : 'Nenhum compromisso próximo'}
-                    </p>
-                  </CardHeader>
-                </Card>
-
-                <Card onClick={() => setCurrentView('perfil')} className="col-span-1 h-32 md:h-36 flex flex-col justify-center p-2 md:p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-xs md:text-base transform group-hover:-translate-y-4 transition-transform duration-300">
-                      Perfil de usuário
-                    </CardTitle>
-                    <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-300 delay-200 max-w-xs leading-relaxed">
-                      Visualize e edite seu perfil
-                    </p>
-                  </CardHeader>
-                </Card>
-
-                <Card 
-                  onClick={() => setCurrentView('quizzes')}
-                  className="col-span-1 h-32 md:h-36 flex flex-col justify-center p-2 md:p-3 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden hover:border-blue-400/50"
-                >
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-xs md:text-base transform group-hover:-translate-y-4 transition-transform duration-300">
-                        Quizzes
-                    </CardTitle>
-                    <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-300 delay-200 max-w-xs leading-relaxed">
-                      Reforce e prove seus conhecimentos
-                    </p>
-                  </CardHeader>
-                </Card>
-
-                <Card onClick={() => setCurrentView('forum')} className="col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-1 h-32 md:h-36 flex flex-col justify-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
-                  <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
-                    <CardTitle className="text-white text-sm md:text-base transform group-hover:-translate-y-4 transition-transform duration-300">
-                      Fórum da Turma
-                    </CardTitle>
-                    <p className="text-white/90 text-xs opacity-0 group-hover:opacity-100 transform translate-y-8 group-hover:translate-y-0 transition-all duration-300 delay-200 max-w-xs leading-relaxed">
-                      Converse com colegas
-                    </p>
-                  </CardHeader>
-                </Card>
-
-                <Card
-                  className="col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-1 h-32 md:h-36 flex flex-col justify-center items-center p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden"
-                >
-                  <Plus />
-                </Card>
-
-                <a href="/planos" className='col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 h-6 md:h-6'>
-                    <Card className=" flex flex-col justify-center items-center p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
-                      <p className='text-xs'>Adquira nossos planos e obtenha acesso a todos os recursos</p>
-                    </Card>
                 </a>
-              </div>
+              </Card>
+
+              {/* Card - Tarefas */}
+              <Card onClick={() => setCurrentView('tarefas')} className="col-span-1 h-[120px] sm:h-[140px] md:h-[160px] flex flex-col justify-center p-2 sm:p-3 rounded-lg sm:rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-xs sm:text-sm md:text-base transform group-hover:-translate-y-2 sm:group-hover:-translate-y-4 transition-transform duration-300">
+                    Tarefas
+                  </CardTitle>
+                  <p className="text-white/90 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-200 leading-tight">
+                    Organize suas tarefas
+                  </p>
+                </CardHeader>
+              </Card>
+
+              {/* Card - Conquistas */}
+              <Card onClick={() => setCurrentView('conquistas')} className="col-span-1 h-[120px] sm:h-[140px] md:h-[160px] flex flex-col justify-center p-2 sm:p-3 rounded-lg sm:rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-xs sm:text-sm md:text-base transform group-hover:-translate-y-2 sm:group-hover:-translate-y-4 transition-transform duration-300">
+                    Conquistas
+                  </CardTitle>
+                  <p className="text-white/90 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-200 leading-tight">
+                    Seu progresso
+                  </p>
+                </CardHeader>
+              </Card>
+
+              {/* Card - Agenda */}
+              <Card onClick={() => setCurrentView('agenda')} className="col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1 h-[120px] sm:h-[140px] md:h-[160px] flex flex-col justify-center p-2 sm:p-3 rounded-lg sm:rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-xs sm:text-sm md:text-base transform group-hover:-translate-y-2 sm:group-hover:-translate-y-4 transition-transform duration-300">
+                    Agenda
+                  </CardTitle>
+                  <p className="text-white/90 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-200 leading-tight">
+                    {nextAppointment ? `${nextAppointment.time}` : 'Sem compromissos'}
+                  </p>
+                </CardHeader>
+              </Card>
+
+              {/* Card - Perfil */}
+              <Card onClick={() => setCurrentView('perfil')} className="col-span-1 h-[120px] sm:h-[140px] md:h-[160px] flex flex-col justify-center p-2 sm:p-3 rounded-lg sm:rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-xs sm:text-sm md:text-base transform group-hover:-translate-y-2 sm:group-hover:-translate-y-4 transition-transform duration-300">
+                    Perfil
+                  </CardTitle>
+                  <p className="text-white/90 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-200 leading-tight">
+                    Seu perfil
+                  </p>
+                </CardHeader>
+              </Card>
+
+              {/* Card - Quizzes */}
+              <Card 
+                onClick={() => setCurrentView('quizzes')}
+                className="col-span-1 h-[120px] sm:h-[140px] md:h-[160px] flex flex-col justify-center p-2 sm:p-3 rounded-lg sm:rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 hover:border-blue-400/50 transition-all duration-300 cursor-pointer overflow-hidden"
+              >
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-xs sm:text-sm md:text-base transform group-hover:-translate-y-2 sm:group-hover:-translate-y-4 transition-transform duration-300">
+                    Quizzes
+                  </CardTitle>
+                  <p className="text-white/90 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-200 leading-tight">
+                    Teste seus conhecimentos
+                  </p>
+                </CardHeader>
+              </Card>
+
+              {/* Card - Fórum */}
+              <Card onClick={() => setCurrentView('forum')} className="col-span-1 sm:col-span-1 md:col-span-1 h-[120px] sm:h-[140px] md:h-[160px] flex flex-col justify-center p-2 sm:p-3 rounded-lg sm:rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden">
+                <CardHeader className="flex flex-col items-center justify-center h-full text-center relative p-1">
+                  <CardTitle className="text-white text-xs sm:text-sm md:text-base transform group-hover:-translate-y-2 sm:group-hover:-translate-y-4 transition-transform duration-300">
+                    Fórum
+                  </CardTitle>
+                  <p className="text-white/90 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-200 leading-tight">
+                    Comunidade
+                  </p>
+                </CardHeader>
+              </Card>
+
+              {/* Card - Placeholder */}
+              <Card
+                className="col-span-1 h-[120px] sm:h-[140px] md:h-[160px] flex flex-col justify-center items-center p-2 sm:p-3 rounded-lg sm:rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-sm border-white/20 text-white group hover:bg-white/20 transition-all duration-300 cursor-pointer overflow-hidden"
+              >
+                <Plus className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white/60 group-hover:text-white transition-colors" />
+              </Card>
             </div>
-          );
+          </div>
+        );
     }
   };
-
-  // Renderização do modo sandbox
-  const renderSandbox = () => (
-    <div className="w-full h-full" style={{ background: dashboardBg, borderRadius: 16, padding: 16 }}>
-      <div className="flex gap-4 mb-4">
-        <label className="text-white">Cor do Dashboard:</label>
-        <input
-          type="color"
-          value={dashboardBg}
-          onChange={e => setDashboardBg(e.target.value)}
-        />
-        <Button onClick={() => setIsEditing(false)} className="ml-auto bg-green-600 text-white">Salvar</Button>
-        <Button onClick={() => setIsEditing(false)} variant="ghost" className="text-white">Cancelar</Button>
-      </div>
-    </div>
-  );
-
-  // No renderContent, adicione:
-  if (isEditing) return renderSandbox();
 
   return (
     <div className="w-full min-h-screen flex flex-col">
